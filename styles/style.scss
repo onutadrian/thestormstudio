@@ -1,0 +1,213 @@
+@import 'variables';
+@import 'components';
+
+.main-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 1.5rem;
+}
+
+.width-limiter {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 81.875rem;
+    position: relative;
+    padding: 0 $widthLimiterPadding;
+}
+
+header {
+    position: absolute;
+    top: 0;
+    width: $absoluteWidth100;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: $sp56;
+
+    ._left {}
+
+    ._center {
+        nav {
+            ul {
+                display: flex;
+                gap: $sp24;
+
+                li {
+                    @include medium-16;
+                }
+            }
+        }
+    }
+
+    ._right {}
+}
+
+.homepage-hero {
+    grid-column: 1 / 13;
+    padding: $sp240 0 0 0;
+
+    ._pre-heading {
+        @include book-36;
+        margin-bottom: $sp32;
+        text-align: center;
+        color: $gray40;
+    }
+
+    ._heading {
+        @include book-96;
+        text-align: center;
+    }
+}
+
+.projects-section {
+    height: 120vh;
+    position: relative;
+
+    ._sticky-wrapper {
+        position: sticky;
+        top: 0;
+        margin: 0 auto;
+        width: 80%;
+
+        overflow: hidden;
+        border-radius: $sp32;
+
+        ._background-videos {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: black;
+
+            video {
+                opacity: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                min-width: 100.1%;
+                min-height: 100.1%;
+                transform: translate(-50%, -50%);
+                object-fit: cover;
+            }
+        }
+
+        ._projects-wrapper {
+            position: absolute;
+            top: 0;
+            z-index: 5;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            display: flex;
+
+            ._project-item {
+                margin: $sp48 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+
+                ._title {
+                    color: #ffffff;
+                    @include medium-64;
+                    opacity: 0.2;
+                }
+
+                ._icon {
+                    overflow: hidden;
+                    opacity: 0;
+                }
+            }
+
+            ._tags-wrapper {
+                position: absolute;
+                bottom: $sp48;
+                width: $absoluteWidth100;
+                display: flex;
+                justify-content: space-between;
+
+
+                ._tag {
+                    color: white;
+                    @include medium-20;
+                }
+            }
+        }
+
+    }
+}
+
+.what-we-do-section {
+
+    ._title {
+        @include medium-20;
+        letter-spacing: 0.095rem;
+        margin-bottom: $sp80;
+        grid-column: 1 / 13;
+    }
+
+    ._heading {
+        @include book-96;
+        max-width: 53rem;
+        grid-column: 1 / 13;
+        margin-bottom: $sp120;
+    }
+
+    ._right-alined-wrapper {
+        grid-column: 1 / 13;
+        display: flex;
+        justify-content: end;
+
+        ._right-alined {
+            max-width: 39.375rem;
+
+            ._subheading {
+                @include book-36;
+                color: $gray40;
+                margin-bottom: $sp80;
+            }
+        }
+
+        .cta-button {
+            margin-bottom: $sp160;
+        }
+
+    }
+
+    ._selected-partners {
+        grid-column: 1 / 13;
+
+        p {
+            @include book-14;
+            letter-spacing: 0.105rem;
+            color: $gray40;
+            margin-bottom: $sp24;
+        }
+
+        ._logos {
+            margin-bottom: $sp240;
+            display: flex;
+            justify-content: space-between;
+
+            img {
+                max-height: 3.125rem;
+            }
+        }
+    }
+}
+
+
+.what-sets-us-apart {
+    ._title {
+        @include medium-20;
+        letter-spacing: 0.095rem;
+        margin-bottom: $sp80;
+        grid-column: 1 / 13;
+    }
+
+    ._heading {
+        @include book-96;
+        grid-column: 1 / 13;
+        margin-bottom: $sp120;
+    }
+}

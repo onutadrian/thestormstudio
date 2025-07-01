@@ -1,0 +1,91 @@
+@font-face {
+    font-family: 'mainfont';
+    src: url('../media/fonts/mainfont.woff2') format('woff2-variations');
+    font-style: normal;
+}
+
+@mixin book-14 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+}
+
+@mixin book-36 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+@mixin book-96 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 6rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+}
+
+@mixin medium-16 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.1rem;
+}
+
+@mixin medium-20 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: normal;
+}
+
+@mixin medium-24 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+}
+
+@mixin medium-64 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 4rem;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+// Spacing Variables
+
+$sp2: 0.125rem;
+$sp4: 0.25rem;
+$sp8: 0.5rem;
+$sp16: 1rem;
+$sp24: 1.5rem;
+$sp32: 2rem;
+$sp40: 2.5rem;
+$sp48: 3rem;
+$sp56: 3.5rem;
+$sp64: 4rem;
+$sp72: 4.5rem;
+$sp80: 5rem;
+$sp120: 7.5rem;
+$sp160: 10rem;
+$sp240: 15rem;
+
+// Color Variables
+
+$gray40: #545454;
+$blue: #3975CA;
+
+// Padding Vaiables
+
+$widthLimiterPadding: 3rem; //48px
+
+// Width Vaiables
+
+$absoluteWidth100: calc(100% - $widthLimiterPadding * 2)
