@@ -7,6 +7,8 @@
   display: flex;
   align-items: center;
   gap: 2rem;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .cta-button p {
   transition: 0.3s;
@@ -36,6 +38,10 @@
   transform: translateX(0%);
 }
 
+body {
+  color: #212020;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -51,6 +57,53 @@
   padding: 0 3rem;
 }
 
+.page-reveal {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+}
+.page-reveal ._top {
+  width: 100%;
+  height: 50%;
+  background: #212020;
+}
+.page-reveal ._bottom {
+  width: 100%;
+  height: 50%;
+  background: #212020;
+}
+.page-reveal ._content {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-reveal ._content ._flex-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.page-reveal ._content ._flex-wrapper ._logo {
+  margin-bottom: 2.5rem;
+  opacity: 0;
+}
+.page-reveal ._content ._flex-wrapper ._text {
+  font-family: "mainfont", sans-serif;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  color: #ffffff;
+  max-width: 600px;
+  text-align: center;
+  opacity: 0;
+}
+
 header {
   position: absolute;
   top: 0;
@@ -60,6 +113,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding-top: 3.5rem;
+  z-index: 100;
 }
 header ._center nav ul {
   display: flex;
@@ -72,6 +126,22 @@ header ._center nav ul li {
   line-height: normal;
   letter-spacing: 0.1rem;
 }
+header ._right a {
+  font-family: "mainfont", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #212020;
+  transition: 0.2s;
+}
+header ._right a:hover {
+  background: #212020;
+  color: #ffffff;
+}
+
 .homepage-hero {
   grid-column: 1/13;
   padding: 15rem 0 0 0;
@@ -93,6 +163,7 @@ header ._center nav ul li {
   font-weight: 400;
   line-height: 100%;
   text-align: center;
+  line-height: 108%;
 }
 
 .projects-section {
@@ -111,7 +182,7 @@ header ._center nav ul li {
   width: 100%;
   height: 100vh;
   position: relative;
-  background: black;
+  background: #000000;
 }
 .projects-section ._sticky-wrapper ._background-videos video {
   opacity: 0;
@@ -235,7 +306,6 @@ header ._center nav ul li {
   line-height: normal;
   letter-spacing: 0.095rem;
   margin-bottom: 5rem;
-  grid-column: 1/13;
 }
 .what-sets-us-apart ._heading {
   font-family: "mainfont", sans-serif;
@@ -243,6 +313,51 @@ header ._center nav ul li {
   font-style: normal;
   font-weight: 400;
   line-height: 100%;
-  grid-column: 1/13;
-  margin-bottom: 7.5rem;
+  margin-bottom: 10rem;
+}
+.what-sets-us-apart ._outcomes-wrapper ._title {
+  font-family: "mainfont", sans-serif;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  margin-bottom: 3rem;
+}
+.what-sets-us-apart ._outcomes-wrapper ._cards-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+}
+.what-sets-us-apart ._outcomes-wrapper ._cards-wrapper ._card {
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.what-sets-us-apart ._outcomes-wrapper ._cards-wrapper ._card ._content {
+  position: absolute;
+  top: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.what-sets-us-apart ._outcomes-wrapper ._cards-wrapper ._card ._content ._value {
+  font-family: "mainfont", sans-serif;
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-bottom: 1.5rem;
+}
+.what-sets-us-apart ._outcomes-wrapper ._cards-wrapper ._card ._content ._description {
+  font-family: "mainfont", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: normal;
+  line-height: 130%;
+  color: #545454;
 }/*# sourceMappingURL=style.css.map */

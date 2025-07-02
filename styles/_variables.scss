@@ -20,6 +20,22 @@
     line-height: 120%;
 }
 
+@mixin book-64 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+}
+
+@mixin book-80 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+}
+
 @mixin book-96 {
     font-family: 'mainfont', sans-serif;
     font-size: 6rem;
@@ -33,7 +49,6 @@
     font-size: 1rem;
     font-weight: 500;
     line-height: normal;
-    letter-spacing: 0.1rem;
 }
 
 @mixin medium-20 {
@@ -81,6 +96,7 @@ $sp240: 15rem;
 
 $gray40: #545454;
 $blue: #3975CA;
+$black: #212020;
 
 // Padding Vaiables
 

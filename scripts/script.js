@@ -36,6 +36,54 @@ window.addEventListener('resize', () => {
     }
 });
 
+// Text Animations
+// text-animation="word-reveal, chars, false, 0"
+
+function textAnimations() {
+    let wordRevealElements = document.querySelectorAll('[text-animation*="word-reveal"]');
+
+    Array.from(wordRevealElements).forEach(element => {
+        let properties = element.getAttribute(`text-animation`).split(`, `);
+        //properties = animation type, split type, instant/on-scroll
+
+
+        let split = SplitText.create(element, {
+            type: properties[1],
+            mask: properties[1],
+            smartWrap: true
+        });
+
+        console.log(split)
+
+        let toBeAnimated = null;
+
+        switch (properties[1]) {
+            case `lines`:
+                toBeAnimated = split.lines
+                break;
+            case `words`:
+                toBeAnimated = split.words
+                break;
+            case `chars`:
+                toBeAnimated = split.chars
+                break;
+        }
+
+        gsap.from(toBeAnimated, {
+            y: -100,
+            duration: 0.6,
+            stagger: 0.01,
+            delay: 0,
+            ease: `power3.out`,
+            delay: 2
+        })
+
+        console.log(properties)
+    })
+}
+
+textAnimations()
+
 // Helper Variables
 // scrollDirection = 1 (down) / -1 (up)
 // mobileBreakpoint
@@ -43,10 +91,88 @@ window.addEventListener('resize', () => {
 
 // Helper Functions
 // sleep(ms)
+// Text Animations
 
 // Helper Custom Events
 // document.addEventListener(`switchedToDesktop`)
 // document.addEventListener(`switchedToMobile`)
+
+function pageReveal() {
+    let pageReveal = document.querySelector(`.page-reveal`)
+    let topPart = pageReveal.querySelector(`._top`)
+    let bottomPart = pageReveal.querySelector(`._bottom`)
+
+    let logoElement = pageReveal.querySelector(`._logo`)
+    let textElement = pageReveal.querySelector(`._text`)
+
+    let animationTimeline = gsap.timeline()
+
+    animationTimeline.fromTo(logoElement, {
+            y: -24,
+            autoAlpha: 0
+        }, {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.6,
+            delay: 0.4
+        })
+        .fromTo(textElement, {
+            y: 24,
+            autoAlpha: 0
+        }, {
+            y: 0,
+            autoAlpha: 1,
+        }, `<`)
+        .to(topPart, {
+            y: `-100%`,
+            duration: 1.2,
+            ease: `power3.inOut`,
+            delay: 2.5
+        })
+        .to(bottomPart, {
+            y: `100%`,
+            duration: 1.2,
+            ease: `power3.inOut`,
+            onComplete: () => {
+                gsap.to(pageReveal, {
+                    display: `none`,
+                })
+            },
+        }, `<`)
+        .to(logoElement, {
+            autoAlpha: 0,
+            duration: 0.2
+        }, "<-=0.4")
+        .to(textElement, {
+            autoAlpha: 0,
+            duration: 0.2
+        }, "<")
+
+
+    let homeHero = document.querySelector(`.homepage-hero`)
+
+    if (homeHero) {
+        let homeHeroPreheading = homeHero.querySelector(`._pre-heading`)
+        let homeHeroHeading = homeHero.querySelector(`._heading`)
+
+        let headingSplit = SplitText.create(homeHeroHeading, {
+            type: `chars`,
+            mask: `chars`,
+            smartWrap: true
+        });
+
+        animationTimeline.from(headingSplit.chars, {
+            y: `-110%`,
+            autoAlpha: 0,
+            duration: 1.4,
+            stagger: 0.02,
+            ease: `power3.inOut`,
+        }, `<+=0.6`)
+    }
+
+}
+
+pageReveal()
 
 function projectsSection() {
     let homepageHeroElement = document.querySelector(`.homepage-hero`)
@@ -153,14 +279,13 @@ function projectsSection() {
         gsap.from(Array.from(newTagElements), {
             autoAlpha: 0,
             y: 24,
-                stagger: 0.1,
+            stagger: 0.1,
             duration: 0.4,
             ease: `power3.out`
         })
     }
 
     function activateProjectItem(projectElement) {
-        console.log(projectElement)
         let videoID = projectElement.getAttribute(`video-id`);
         let videoElement = document.getElementById(videoID)
 
@@ -253,9 +378,3 @@ function projectsSection() {
 }
 
 projectsSection()
-
-function textAnimations() {
-    let textAnimElements = document.querySelectorAll(`.text-anim`);
-
-    
-}
