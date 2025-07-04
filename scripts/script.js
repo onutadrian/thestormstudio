@@ -53,8 +53,6 @@ function textAnimations() {
             smartWrap: true
         });
 
-        console.log(split)
-
         let toBeAnimated = null;
 
         switch (properties[1]) {
@@ -78,7 +76,6 @@ function textAnimations() {
             delay: 2
         })
 
-        console.log(properties)
     })
 }
 
@@ -378,3 +375,101 @@ function projectsSection() {
 }
 
 projectsSection()
+
+function becauseWeAnimation() {
+
+    let whyWorkWithUsElement = document.querySelector(`.why-work-with-us`)
+    if (!whyWorkWithUsElement) return;
+
+    let animationWrapper = whyWorkWithUsElement.querySelector(`._animation-wrapper`)
+    let headingElement = animationWrapper.querySelector(`._we`)
+
+    let animationTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: animationWrapper,
+            start: `0% 40%`,
+            end: `90% 40%`,
+            scrub: true,
+            //markers: true,
+            pin: headingElement,
+            pinSpacing: false
+        }
+    })
+
+    let textToHide = headingElement.querySelectorAll(`._hide`)
+
+    animationTimeline.to(Array.from(textToHide), {
+            opacity: 0,
+            duration: 0.1
+        })
+        .to({}, {
+            duration: 0.9
+        })
+        .to(headingElement, {
+            opacity: 0,
+            duration: 0.1
+        })
+
+    let reasonElements = animationWrapper.querySelectorAll(`._reason`)
+
+    Array.from(reasonElements).forEach(reasonElement => {
+        let content = reasonElement.querySelector(`._content`)
+        let number = content.querySelector(`._number`)
+        let text = content.querySelector(`._text`)
+
+        gsap.fromTo(number, {
+            autoAlpha: 0,
+            y: -24,
+        }, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.6,
+            ease: `power3.inOut`,
+            scrollTrigger: {
+                trigger: reasonElement,
+                start: `0% 55%`,
+                end: `100% 55%`,
+                //markers: true,
+            }
+        })
+
+        let textSplit = SplitText.create(text, {
+            type: `words`,
+            mask: `words`,
+            smartWrap: true
+        });
+
+        gsap.fromTo(textSplit.words, {
+            autoAlpha: 0,
+            y: -24,
+        }, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.4,
+            stagger: 0.02,
+            ease: `power3.inOut`,
+            scrollTrigger: {
+                trigger: reasonElement,
+                start: `0% 55%`,
+                end: `100% 55%`,
+                //markers: true,
+            }
+        })
+
+        gsap.to(text, {
+            opacity: 0.5,
+            duration: 0.4,
+            ease: `power3.inOut`,
+            scrollTrigger: {
+                trigger: reasonElement,
+                start: `0% 30%`,
+                end: `100% 60%`,
+                //markers: true,
+                toggleActions: "play none reverse none",
+            }
+
+        })
+    })
+}
+
+becauseWeAnimation()

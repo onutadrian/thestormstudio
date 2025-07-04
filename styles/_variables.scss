@@ -12,12 +12,26 @@
     line-height: 100%;
 }
 
+@mixin book-24 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+}
+
 @mixin book-36 {
     font-family: 'mainfont', sans-serif;
     font-size: 2.25rem;
     font-style: normal;
     font-weight: 400;
     line-height: 120%;
+}
+
+@mixin book-40 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 400;
 }
 
 @mixin book-64 {
@@ -95,7 +109,9 @@ $sp240: 15rem;
 // Color Variables
 
 $gray40: #545454;
+$gray20: #8B8B8B;
 $blue: #3975CA;
+$lightblue: #EEF3F9;
 $black: #212020;
 
 // Padding Vaiables
