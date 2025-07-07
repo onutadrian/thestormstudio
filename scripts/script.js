@@ -390,25 +390,19 @@ function becauseWeAnimation() {
             start: `0% 40%`,
             end: `90% 40%`,
             scrub: true,
-            //markers: true,
+            //ers: true,
             pin: headingElement,
             pinSpacing: false
         }
     })
 
-    let textToHide = headingElement.querySelectorAll(`._hide`)
-
-    animationTimeline.to(Array.from(textToHide), {
-            opacity: 0,
-            duration: 0.1
-        })
-        .to({}, {
+    animationTimeline.to({}, {
             duration: 0.9
         })
         .to(headingElement, {
             opacity: 0,
             duration: 0.1
-        })
+        }, `<+=0.75"`)
 
     let reasonElements = animationWrapper.querySelectorAll(`._reason`)
 
@@ -473,3 +467,81 @@ function becauseWeAnimation() {
 }
 
 becauseWeAnimation()
+
+async function indexToProjectTransitionLeave(trigger) {
+
+    if (!trigger.hasAttribute(`video-id`)) {
+        return
+    };
+
+    let videoID = trigger.getAttribute(`video-id`);
+    let videoElement = document.querySelector(`#${videoID}`);
+
+    let transitionWrapper = document.querySelector(`.video-transition-wrapper`);
+
+    let state = Flip.getState(videoElement)
+
+    transitionWrapper.appendChild(videoElement)
+
+    gsap.to(transitionWrapper, {
+        display: `block`,
+        autoAlpha: 1,
+        duration: 0
+    })
+
+    await Flip.from(state, {
+        duration: 0.3
+    })
+
+
+    await gsap.to(videoElement, {
+        autoAlpha: 1,
+        duration: 0.3
+    });
+
+    console.log(videoElement)
+
+}
+
+
+barba.init({
+    transitions: [{
+        name: 'projectTransition',
+        async leave(data) {
+            //ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+            const triggeredElement = data.trigger;
+            if (triggeredElement) {
+                console.log(triggeredElement)
+                await indexToProjectTransitionLeave(triggeredElement);
+            }
+        }
+    }],
+    views: [{
+            namespace: 'home',
+            beforeEnter(data) {
+                //ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        ScrollTrigger.refresh();
+                    });
+                });
+            }
+        },
+        {
+            namespace: 'project',
+            afterEnter(data) {
+                //ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+                indexToProjectTransitionEnter();
+
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        ScrollTrigger.refresh();
+                    });
+                });
+            }
+        }
+    ]
+});

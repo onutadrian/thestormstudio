@@ -57,6 +57,14 @@ body {
   padding: 0 3rem;
 }
 
+.width-limiter-wide {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 101.25rem;
+  position: relative;
+  padding: 0 3rem;
+}
+
 .page-reveal {
   position: fixed;
   top: 0;
@@ -102,6 +110,29 @@ body {
   max-width: 600px;
   text-align: center;
   opacity: 0;
+}
+
+.video-transition-wrapper {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  z-index: 100;
+  overflow: hidden;
+}
+.video-transition-wrapper video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  -o-object-fit: cover;
+     object-fit: cover;
+  opacity: 1;
 }
 
 header {
@@ -471,8 +502,171 @@ header ._right a:hover {
 }
 .why-work-with-us ._animation-wrapper ._reasons-wrapper ._last-spacer {
   width: 100%;
-  height: 5rem;
+  height: 10rem;
   background: #ffffff;
   position: relative;
   z-index: 100;
+}
+
+.testimonials {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  color: #ffffff;
+}
+.testimonials ._progress {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 0.25rem;
+  background: #C2D0D4;
+  z-index: 10;
+}
+.testimonials ._progress ._current {
+  position: absolute;
+  top: 0;
+  width: 35%;
+  height: 0.25rem;
+  background: #FFBF00;
+  z-index: 11;
+}
+.testimonials ._background-images {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+.testimonials ._background-images ._gradient {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+  z-index: 5;
+}
+.testimonials ._background-images img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100.1%;
+  min-height: 100.1%;
+  transform: translate(-50%, -50%);
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.testimonials ._flex-wrapper {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.testimonials ._flex-wrapper ._left {
+  margin-bottom: 7.5rem;
+}
+.testimonials ._flex-wrapper ._left ._quote {
+  font-family: "mainfont", sans-serif;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+  max-width: 800px;
+  margin-bottom: 4rem;
+}
+.testimonials ._flex-wrapper ._left ._from ._name {
+  font-family: "mainfont", sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-bottom: 0.5rem;
+}
+.testimonials ._flex-wrapper ._left ._from ._company {
+  font-family: "mainfont", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 1rem;
+}
+.testimonials ._flex-wrapper ._left ._from ._position {
+  font-family: "mainfont", sans-serif;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  color: #C2D0D4;
+}
+.testimonials ._flex-wrapper ._right {
+  margin-bottom: 7.5rem;
+}
+.testimonials ._flex-wrapper ._right .cta-button:hover > p {
+  color: #FFBF00;
+}
+.testimonials ._flex-wrapper ._right .cta-button:hover > ._icon svg {
+  color: #FFBF00;
+}
+
+footer {
+  position: relative;
+}
+footer ._get-in-touch {
+  padding: 15rem 0 10rem 0;
+  text-align: center;
+}
+footer ._get-in-touch ._pre-heading {
+  font-family: "mainfont", sans-serif;
+  font-size: 1.875rem;
+  font-style: normal;
+  font-weight: 400;
+  color: #545454;
+  margin-bottom: 1.5rem;
+  line-height: 100%;
+}
+footer ._get-in-touch ._heading {
+  font-family: "mainfont", sans-serif;
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  line-height: 100%;
+}
+footer ._flex-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 7.5rem;
+  padding: 3rem;
+}
+footer ._flex-wrapper ._left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+footer ._flex-wrapper ._left ._email {
+  font-family: "mainfont", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: normal;
+}
+footer ._flex-wrapper ._left ._location {
+  font-family: "mainfont", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: normal;
+  color: #545454;
+}
+footer ._flex-wrapper ._right ._legal {
+  font-family: "mainfont", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: normal;
+}
+footer ._logo {
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
 }/*# sourceMappingURL=style.css.map */

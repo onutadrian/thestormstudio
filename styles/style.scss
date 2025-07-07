@@ -19,7 +19,17 @@ body {
     padding: 0 $widthLimiterPadding;
 }
 
+.width-limiter-wide {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 101.25rem;
+    position: relative;
+    padding: 0 $widthLimiterPadding;
+}
+
 .page-reveal {
+    //display: none;
+
     position: fixed;
     top: 0;
     width: 100%;
@@ -65,6 +75,29 @@ body {
                 opacity: 0;
             }
         }
+    }
+}
+
+.video-transition-wrapper {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: black;
+    z-index: 100;
+    overflow: hidden;
+
+    video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        opacity: 1;
     }
 }
 
@@ -435,11 +468,176 @@ header {
 
             ._last-spacer {
                 width: 100%;
-                height: $sp80;
+                height: $sp160;
                 background: #ffffff;
                 position: relative;
                 z-index: 100;
             }
         }
+    }
+}
+
+.testimonials {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    color: #ffffff;
+
+    ._progress {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 0.25rem;
+        background: $accentblue;
+        z-index: 10;
+
+        ._current {
+            position: absolute;
+            top: 0;
+            width: 35%;
+            height: 0.25rem;
+            background: $yellow;
+            z-index: 11;
+        }
+    }
+
+    ._background-images {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+
+        ._gradient {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
+            z-index: 5;
+        }
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100.1%;
+            min-height: 100.1%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+    }
+
+    ._flex-wrapper {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+
+
+        ._left {
+            margin-bottom: $sp120;
+
+            ._quote {
+                @include medium-36;
+                max-width: 800px;
+                margin-bottom: $sp64;
+            }
+
+            ._from {
+                ._name {
+                    @include book-16;
+                    margin-bottom: $sp8;
+                }
+
+                ._company {
+                    @include medium-16;
+                    margin-bottom: $sp16;
+                }
+
+                ._position {
+                    @include book-20;
+                    color: $accentblue;
+                }
+            }
+        }
+
+        ._right {
+            margin-bottom: $sp120;
+
+            .cta-button {
+                &:hover {
+                    >p {
+                        color: $yellow;
+                    }
+
+                    >._icon {
+                        svg {
+                            color: $yellow;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+footer {
+    position: relative;
+
+    ._get-in-touch {
+        padding: $sp240 0 $sp160 0;
+        text-align: center;
+
+        ._pre-heading {
+            @include book-30;
+            color: $gray40;
+            margin-bottom: $sp24;
+            line-height: 100%;
+        }
+
+        ._heading {
+            @include medium-48;
+            line-height: 100%;
+        }
+    }
+
+    ._flex-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-top: $sp120;
+        padding: $sp48;
+
+        ._left {
+            display: flex;
+            flex-direction: column;
+            gap: $sp24;
+
+            ._email {
+                @include medium-20;
+            }
+
+            ._location {
+                @include medium-20;
+                color: $gray40;
+            }
+        }
+
+        ._right {
+            ._legal {
+                @include medium-20;
+            }
+        }
+    }
+
+    ._logo {
+        position: absolute;
+        bottom: 0;
+        z-index: -1;
     }
 }

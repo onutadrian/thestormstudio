@@ -12,9 +12,32 @@
     line-height: 100%;
 }
 
+@mixin book-16 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+}
+
+@mixin book-20 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+}
+
 @mixin book-24 {
     font-family: 'mainfont', sans-serif;
     font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+}
+
+@mixin book-30 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 1.875rem;
     font-style: normal;
     font-weight: 400;
 }
@@ -80,6 +103,22 @@
     line-height: 100%;
 }
 
+@mixin medium-36 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+}
+
+@mixin medium-48 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 3rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+}
+
 @mixin medium-64 {
     font-family: 'mainfont', sans-serif;
     font-size: 4rem;
@@ -112,7 +151,9 @@ $gray40: #545454;
 $gray20: #8B8B8B;
 $blue: #3975CA;
 $lightblue: #EEF3F9;
+$accentblue: #C2D0D4;
 $black: #212020;
+$yellow: #FFBF00;
 
 // Padding Vaiables
 
