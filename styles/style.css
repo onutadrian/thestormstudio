@@ -66,6 +66,7 @@ body {
 }
 
 .page-reveal {
+  display: none;
   position: fixed;
   top: 0;
   width: 100%;
@@ -526,7 +527,7 @@ header ._right a:hover {
 .testimonials ._progress ._current {
   position: absolute;
   top: 0;
-  width: 35%;
+  width: 0%;
   height: 0.25rem;
   background: #FFBF00;
   z-index: 11;
@@ -608,9 +609,45 @@ header ._right a:hover {
 .testimonials ._flex-wrapper ._right .cta-button:hover > ._icon svg {
   color: #FFBF00;
 }
+.testimonials ._testimonial-items {
+  display: none;
+}
 
 footer {
   position: relative;
+}
+footer ._contact-blob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 500px;
+  transform-origin: 50% 50%;
+  transform: translate(-50%, -50%);
+  will-change: width, height, transform, border;
+  z-index: 999;
+  pointer-events: none;
+  background: #212020;
+}
+footer ._contact-blob ._content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #FFBF00;
+  font-family: "mainfont", sans-serif;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+  line-height: 100%;
 }
 footer ._get-in-touch {
   padding: 15rem 0 10rem 0;

@@ -79,7 +79,106 @@ function textAnimations() {
     })
 }
 
-textAnimations()
+
+
+function createBlob(blobElement, blobContent, hoverElements, blobSize, ) {
+
+    //blobElement always getElementsByClassName(`x`)[0]
+    //blobContent always getElementsByClassName(`x`)[0]
+    //hoverElements always querySelectorAll(`x`) even if only one
+    //blobSize width of blob int value
+
+    gsap.set(blobElement, {
+        transformOrigin: 'center center'
+    });
+
+    let blobState = {
+        active: 0
+    };
+
+    hoverElements.forEach(hoverElement => {
+        hoverElement.addEventListener(`pointerenter`, async () => {
+
+            if (!isDesktop) return;
+
+            gsap.to(blobState, {
+                active: 1,
+                duration: 0.3
+            });
+        })
+
+        hoverElement.addEventListener(`pointerleave`, async () => {
+
+            if (!isDesktop) return;
+
+            gsap.to(blobState, {
+                active: 0,
+                duration: 0.3,
+                ease: 'power1.out'
+            });
+        })
+    })
+
+    function getAngle(dx, dy) {
+        return (Math.atan2(dy, dx) * 180) / Math.PI;
+    }
+
+    function getScale(dx, dy) {
+        let dist = Math.hypot(dx, dy);
+        return Math.min(dist / 1200, 0.35);
+    }
+
+    let pos = {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2
+    };
+    let vel = {
+        x: 0,
+        y: 0
+    };
+
+    let set = {
+        x: gsap.quickSetter(blobElement, "x", "px"),
+        y: gsap.quickSetter(blobElement, "y", "px"),
+        width: gsap.quickSetter(blobElement, "width", "px"),
+        r: gsap.quickSetter(blobElement, "rotation", "deg"),
+        sx: gsap.quickSetter(blobElement, "scaleX"),
+        sy: gsap.quickSetter(blobElement, "scaleY"),
+        rt: gsap.quickSetter(blobContent, "rotation", "deg")
+    };
+
+    function updateBlob() {
+        let rotation = getAngle(vel.x, vel.y);
+        let scale = getScale(vel.x, vel.y);
+
+        set.x(pos.x);
+        set.y(pos.y);
+        set.width(blobSize + scale * 150);
+        set.r(rotation);
+        set.sx((1 + scale) * blobState.active);
+        set.sy((1 - scale) * blobState.active);
+        set.rt(-rotation);
+    }
+
+    gsap.ticker.add(updateBlob);
+
+    window.addEventListener("mousemove", (e) => {
+        let x = e.clientX,
+            y = e.clientY;
+        gsap.to(pos, {
+            x,
+            y,
+            duration: 1,
+            ease: "expo.out",
+            onUpdate: () => {
+                vel.x = x - pos.x;
+                vel.y = y - pos.y;
+            }
+        });
+
+        updateBlob();
+    });
+}
 
 // Helper Variables
 // scrollDirection = 1 (down) / -1 (up)
@@ -89,6 +188,7 @@ textAnimations()
 // Helper Functions
 // sleep(ms)
 // Text Animations
+// Create Blob
 
 // Helper Custom Events
 // document.addEventListener(`switchedToDesktop`)
@@ -374,8 +474,6 @@ function projectsSection() {
 
 }
 
-projectsSection()
-
 function becauseWeAnimation() {
 
     let whyWorkWithUsElement = document.querySelector(`.why-work-with-us`)
@@ -466,10 +564,142 @@ function becauseWeAnimation() {
     })
 }
 
-becauseWeAnimation()
+function testimonialsSection() {
+    let testimonialsSection = document.querySelector(`.testimonials`)
+    let testimonialsItems = testimonialsSection.querySelectorAll(`._testimonial-items ._item`)
+
+    let progressBar = testimonialsSection.querySelector(`._progress ._current`)
+
+    let currentTestimonialIndex = 0;
+    let testimonialsObjects = []
+
+    Array.from(testimonialsItems).forEach(item => {
+        let addToTestimonialsObjects = {
+            "quote": `${item.querySelector(`._quote`).innerHTML}`,
+            "name": `${item.querySelector(`._name`).innerHTML}`,
+            "company": `${item.querySelector(`._company`).innerHTML}`,
+            "position": `${item.querySelector(`._position`).innerHTML}`,
+            "imageId": `${item.getAttribute(`image-id`)}`,
+            "caseStudyLink": `${item.getAttribute(`case-study-link`)}`
+        }
+
+        testimonialsObjects.push(addToTestimonialsObjects)
+    })
+
+    let quoteElement = testimonialsSection.querySelector(`._quote`)
+    let nameElement = testimonialsSection.querySelector(`._name`)
+    let companyElement = testimonialsSection.querySelector(`._company`)
+    let positionElement = testimonialsSection.querySelector(`._position`)
+    let ctaButton = testimonialsSection.querySelector(`.cta-button`)
+
+    function switchTestimonial(testimonialItem) {
+
+        let oldImage = testimonialsSection.querySelector(`#${testimonialItem.imageId}`)
+
+        let newImage;
+        let newTestimonialItem;
+
+        let animationTimeline = gsap.timeline()
+
+        animationTimeline.to(quoteElement, {
+                duration: 0.4,
+                y: -24,
+                autoAlpha: 0
+            })
+            .to(nameElement, {
+                duration: 0.3,
+                y: -24,
+                autoAlpha: 0
+            }, `<+=0.2`)
+            .to(ctaButton, {
+                duration: 0.3,
+                y: -24,
+                autoAlpha: 0
+            }, `<`)
+            .to(companyElement, {
+                duration: 0.3,
+                y: -24,
+                autoAlpha: 0
+            }, `<+=0.1`)
+            .to(positionElement, {
+                duration: 0.3,
+                y: -24,
+                autoAlpha: 0
+            }, `<+=0.1`)
+            .to(oldImage, {
+                duration: 0.3,
+                autoAlpha: 0,
+            }, `<+=0.1`)
+            .to({}, {
+                onComplete: function () {
+
+                    currentTestimonialIndex++;
+
+                    if (currentTestimonialIndex > testimonialsObjects.length - 1) {
+                        currentTestimonialIndex = 0;
+                    }
+
+                    newTestimonialItem = testimonialsObjects[currentTestimonialIndex]
+
+                    console.log(newTestimonialItem.imageId)
+
+                    newImage = testimonialsSection.querySelector(`#${newTestimonialItem.imageId}`)
+
+                    console.log(newImage)
+                    console.log(`----------------`)
+
+                    quoteElement.innerHTML = newTestimonialItem.quote
+                    nameElement.innerHTML = newTestimonialItem.name
+                    companyElement.innerHTML = newTestimonialItem.company
+                    positionElement.innerHTML = newTestimonialItem.position
+                }
+            }, `<`)
+            .to(newImage, {
+                duration: 0.3,
+                autoAlpha: 1,
+
+            })
+            .to(quoteElement, {
+                duration: 0.4,
+                y: 0,
+                autoAlpha: 1
+            })
+            .to(nameElement, {
+                duration: 0.3,
+                y: 0,
+                autoAlpha: 1
+            }, `<+=0.2`)
+            .to(ctaButton, {
+                duration: 0.3,
+                y: 0,
+                autoAlpha: 1
+            }, `<`)
+            .to(companyElement, {
+                duration: 0.3,
+                y: 0,
+                autoAlpha: 1
+            }, `<+=0.1`)
+            .to(positionElement, {
+                duration: 0.3,
+                y: 0,
+                autoAlpha: 1
+            }, `<+=0.1`)
+    }
+
+    gsap.to(progressBar, {
+        duration: 10,
+        width: `100%`,
+        ease: `none`,
+        repeat: -1,
+        onRepeat: function () {
+            switchTestimonial(testimonialsObjects[currentTestimonialIndex])
+        }
+    })
+}
+
+
 
 async function indexToProjectTransitionLeave(trigger) {
-
     if (!trigger.hasAttribute(`video-id`)) {
         return
     };
@@ -493,22 +723,30 @@ async function indexToProjectTransitionLeave(trigger) {
         duration: 0.3
     })
 
-
     await gsap.to(videoElement, {
         autoAlpha: 1,
         duration: 0.3
     });
 
-    console.log(videoElement)
 
 }
 
+function initBlobs(container = document) {
+
+    let footerBlobElement = container.querySelector(`._contact-blob`);
+
+    if (footerBlobElement) {
+        let footerBlobContent = footerBlobElement.querySelector(`._content`);
+        let footerHoverElement = container.querySelectorAll(`._get-in-touch`);
+        createBlob(footerBlobElement, footerBlobContent, footerHoverElement, 180)
+    }
+}
 
 barba.init({
     transitions: [{
         name: 'projectTransition',
         async leave(data) {
-            //ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
             const triggeredElement = data.trigger;
             if (triggeredElement) {
@@ -520,7 +758,14 @@ barba.init({
     views: [{
             namespace: 'home',
             beforeEnter(data) {
-                //ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+                ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+                textAnimations(data.next.container)
+                initBlobs(data.next.container)
+                pageReveal(data.next.container)
+                projectsSection(data.next.container)
+                becauseWeAnimation(data.next.container)
+                testimonialsSection(data.next.container)
 
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
@@ -532,7 +777,7 @@ barba.init({
         {
             namespace: 'project',
             afterEnter(data) {
-                //ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+                ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
                 indexToProjectTransitionEnter();
 
