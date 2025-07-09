@@ -196,6 +196,11 @@ function createBlob(blobElement, blobContent, hoverElements, blobSize, ) {
 
 function pageReveal() {
     let pageReveal = document.querySelector(`.page-reveal`)
+
+    if (!pageReveal) {
+        return;
+    }
+
     let topPart = pageReveal.querySelector(`._top`)
     let bottomPart = pageReveal.querySelector(`._bottom`)
 
@@ -719,8 +724,8 @@ async function indexToProjectTransitionLeave(trigger) {
         duration: 0
     })
 
-    await Flip.from(state, {
-        duration: 0.3
+    Flip.from(state, {
+        duration: 0.0
     })
 
     await gsap.to(videoElement, {
@@ -734,12 +739,483 @@ async function indexToProjectTransitionLeave(trigger) {
 function initBlobs(container = document) {
 
     let footerBlobElement = container.querySelector(`._contact-blob`);
-
     if (footerBlobElement) {
         let footerBlobContent = footerBlobElement.querySelector(`._content`);
         let footerHoverElement = container.querySelectorAll(`._get-in-touch`);
         createBlob(footerBlobElement, footerBlobContent, footerHoverElement, 180)
     }
+
+    let dragBlobElement = container.getElementsByClassName(`_drag-blob`)[0];
+    if (dragBlobElement) {
+        let dragBlobContent = dragBlobElement.getElementsByClassName(`_blob-content`)[0];
+        let dragHoverElement = container.getElementsByClassName(`cs-int-drag`)[0].querySelectorAll(`._content`);
+        createBlob(dragBlobElement, dragBlobContent, dragHoverElement, 128)
+    }
+}
+
+async function indexToProjectTransitionEnter() {
+
+    let transitionWrapper = document.getElementsByClassName(`video-transition-wrapper`)[0];
+    if (!transitionWrapper.hasChildNodes()) {
+        return;
+    }
+
+    let videoFromTransition = transitionWrapper.getElementsByTagName(`video`)[0];
+    let projectHero = document.getElementsByClassName(`project-hero`)[0]
+    let videoWrapper = projectHero.getElementsByClassName(`_video-wrapper`)[0]
+    let inPageVideo = videoWrapper.getElementsByTagName(`video`)[0]
+    let projectTitle = projectHero.getElementsByClassName(`_title`)[0]
+    let projectMetaWrappers = projectHero.getElementsByClassName(`_meta-wrapper`)
+
+    gsap.to(videoFromTransition, {
+        autoAlpha: 1,
+        duration: 0
+    });
+
+    gsap.to(projectTitle, {
+        autoAlpha: 0,
+        duration: 0
+    })
+
+    gsap.to(Array.from(projectMetaWrappers), {
+        autoAlpha: 0,
+        duration: 0
+    })
+
+    await sleep(500);
+
+    window.scrollTo(0, 0);
+
+    inPageVideo.remove();
+    videoFromTransition.parentNode.insertBefore(videoWrapper, videoFromTransition);
+    videoWrapper.appendChild(videoFromTransition)
+
+    let state = Flip.getState(videoWrapper)
+
+    projectHero.appendChild(videoWrapper)
+
+    gsap.to(transitionWrapper, {
+        autoAlpha: 0,
+        duration: 0
+    })
+
+    gsap.fromTo(projectTitle, {
+        y: 24
+    }, {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.3,
+        delay: 0.8
+    })
+
+    gsap.fromTo(Array.from(projectMetaWrappers), {
+        y: 24
+    }, {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.3,
+        stagger: 0.1,
+        delay: 0.9
+    })
+
+    await Flip.from(state, {
+        duration: 1,
+        ease: "power2.inOut"
+    })
+}
+
+function caseStudyAnimations(container = document) {
+
+    let mm = gsap.matchMedia();
+
+    mm.add(`(min-width: ${mobileBreakpoint}px)`, () => {
+
+        let txtMainElements = container.querySelectorAll(".cs-txt-main-left, .cs-txt-main-right");
+
+        if (txtMainElements) {
+
+            Array.from(txtMainElements).forEach(txtMainElement => {
+                let preHeadingParagraph = txtMainElement.querySelectorAll("._pre-heading p")[0]
+                let headingParagraph = txtMainElement.querySelectorAll("._heading p")[0]
+
+                let split = SplitText.create(headingParagraph, {
+                    type: "lines"
+                });
+
+                gsap.from(preHeadingParagraph, {
+                    x: -40,
+                    opacity: 0,
+                    duration: 0.3,
+
+                    scrollTrigger: {
+                        trigger: preHeadingParagraph,
+                        start: 'top 80%',
+                    }
+                })
+
+                gsap.from(split.lines, {
+                    y: 5,
+                    opacity: 0,
+                    duration: 0.3,
+                    stagger: 0.1,
+                    delay: 0.1
+                })
+            });
+        }
+
+        let figOneFullElements = container.querySelectorAll(".cs-fig-1-full-left, .cs-fig-1-full-right");
+
+        if (figOneFullElements) {
+
+            Array.from(figOneFullElements).forEach(figOneFullElement => {
+                let visualElement = figOneFullElement.querySelectorAll("img, video")[0]
+                let descriptionParagraphs = figOneFullElement.querySelectorAll("._description p")
+
+                gsap.from(visualElement, {
+                    opacity: 0,
+                    scale: 1.2,
+                    duration: .8,
+                    clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
+                    transformOrigin: 'top center',
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        if (visualElement.tagName == `VIDEO`) {
+                            visualElement.play();
+                        }
+                    },
+
+                    scrollTrigger: {
+                        trigger: visualElement,
+                        start: '20% 80%',
+                    }
+                })
+
+                if (!descriptionParagraphs) return;
+
+                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                    let split = SplitText.create(descriptionParagraph, {
+                        type: "lines"
+                    });
+
+                    gsap.from(split.lines, {
+                        y: 5,
+                        opacity: 0,
+                        duration: 0.3,
+                        stagger: 0.1,
+
+                        scrollTrigger: {
+                            trigger: descriptionParagraph,
+                            start: 'top 80%',
+                        }
+                    })
+                })
+
+            })
+        }
+
+        let figOneAsymElements = container.querySelectorAll(".cs-fig-1-asym-left, .cs-fig-1-asym-right");
+
+        if (figOneAsymElements) {
+
+            Array.from(figOneAsymElements).forEach(figOneAsymElement => {
+                let visualElement = figOneAsymElement.querySelectorAll("img, video")[0]
+                let descriptionParagraphs = figOneAsymElement.querySelectorAll("._description p")
+
+                gsap.from(visualElement, {
+                    opacity: 0,
+                    scale: 1.2,
+                    duration: .8,
+                    clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
+                    transformOrigin: 'top center',
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        if (visualElement.tagName == `VIDEO`) {
+                            visualElement.play();
+                        }
+                    },
+
+                    scrollTrigger: {
+                        trigger: visualElement,
+                        start: '20% 80%',
+                    }
+                })
+
+                if (!descriptionParagraphs) return;
+
+                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                    let split = SplitText.create(descriptionParagraph, {
+                        type: "lines"
+                    });
+
+                    gsap.from(split.lines, {
+                        y: 5,
+                        opacity: 0,
+                        duration: 0.3,
+                        stagger: 0.1,
+
+                        scrollTrigger: {
+                            trigger: descriptionParagraph,
+                            start: 'top 80%',
+                        }
+                    })
+                })
+            })
+        }
+
+        let figOneByOneElements = container.querySelectorAll(".cs-fig-1x1-left, .cs-fig-1x1-right");
+
+        if (figOneByOneElements) {
+            Array.from(figOneByOneElements).forEach(figOneByOneElement => {
+                let visualElements = figOneByOneElement.querySelectorAll("img, video")
+                let descriptionParagraphs = figOneByOneElement.querySelectorAll("._description p")
+
+                Array.from(visualElements).forEach(visualElement => {
+                    gsap.from(visualElement, {
+                        opacity: 0,
+                        scale: 1.2,
+                        duration: .8,
+                        clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
+                        transformOrigin: 'top center',
+                        ease: 'power2.inOut',
+                        onComplete: () => {
+                            if (visualElement.tagName == `VIDEO`) {
+                                visualElement.play();
+                            }
+                        },
+
+                        scrollTrigger: {
+                            trigger: visualElement,
+                            start: '20% 80%',
+                        }
+                    })
+                })
+
+                if (!descriptionParagraphs) return;
+
+                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                    let split = SplitText.create(descriptionParagraph, {
+                        type: "lines"
+                    });
+
+                    gsap.from(split.lines, {
+                        y: 5,
+                        opacity: 0,
+                        duration: 0.3,
+                        stagger: 0.1,
+
+                        scrollTrigger: {
+                            trigger: descriptionParagraph,
+                            start: 'top 80%',
+                        }
+                    })
+                })
+            })
+        }
+
+        let figOneByOneAsymElements = container.querySelectorAll(".cs-fig-1x1-asym-left, .cs-fig-1x1-asym-right");
+
+        if (figOneByOneAsymElements) {
+            Array.from(figOneByOneAsymElements).forEach(figOneByOneAsymElement => {
+                let visualElements = figOneByOneAsymElement.querySelectorAll("img, video")
+                let descriptionParagraphs = figOneByOneAsymElement.querySelectorAll("._description p")
+
+                Array.from(visualElements).forEach(visualElement => {
+                    gsap.from(visualElement, {
+                        opacity: 0,
+                        scale: 1.2,
+                        duration: .8,
+                        clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
+                        transformOrigin: 'top center',
+                        ease: 'power2.inOut',
+                        onComplete: () => {
+                            if (visualElement.tagName == `VIDEO`) {
+                                visualElement.play();
+                            }
+                        },
+                        scrollTrigger: {
+                            trigger: visualElement,
+                            start: '20% 80%',
+                        }
+                    })
+                })
+
+
+
+                if (!descriptionParagraphs) return;
+
+                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                    let split = SplitText.create(descriptionParagraph, {
+                        type: "lines"
+                    });
+
+                    gsap.from(split.lines, {
+                        y: 5,
+                        opacity: 0,
+                        duration: 0.3,
+                        stagger: 0.1,
+
+                        scrollTrigger: {
+                            trigger: descriptionParagraph,
+                            start: 'top 80%',
+                        }
+                    })
+                })
+            })
+        }
+
+        let figOneByTwoAsymElements = container.querySelectorAll(".cs-fig-1x2-asym-left, .cs-fig-1x2-asym-right");
+
+        if (figOneByTwoAsymElements) {
+            Array.from(figOneByTwoAsymElements).forEach(figOneByTwoAsymElement => {
+                let visualElements = figOneByTwoAsymElement.querySelectorAll("img, video")
+                let descriptionParagraphs = figOneByTwoAsymElement.querySelectorAll("._description p")
+
+                Array.from(visualElements).forEach(visualElement => {
+                    gsap.from(visualElement, {
+                        opacity: 0,
+                        scale: 1.2,
+                        duration: .8,
+                        clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
+                        transformOrigin: 'top center',
+                        ease: 'power2.inOut',
+                        onComplete: () => {
+                            if (visualElement.tagName == `VIDEO`) {
+                                visualElement.play();
+                            }
+                        },
+                        scrollTrigger: {
+                            trigger: visualElement,
+                            start: '20% 80%',
+                        }
+                    })
+                })
+
+
+
+                if (!descriptionParagraphs) return;
+
+                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                    let split = SplitText.create(descriptionParagraph, {
+                        type: "lines"
+                    });
+
+                    gsap.from(split.lines, {
+                        y: 5,
+                        opacity: 0,
+                        duration: 0.3,
+                        stagger: 0.1,
+
+                        scrollTrigger: {
+                            trigger: descriptionParagraph,
+                            start: 'top 80%',
+                        }
+                    })
+                })
+            })
+        }
+
+    })
+}
+
+function caseStudySectionCompare(container = document) {
+    let compareElements = container.getElementsByClassName(`cs-int-compare`);
+
+    if (compareElements) {
+
+        Array.from(compareElements).forEach(compareElement => {
+            let beforeImage = compareElement.getElementsByClassName(`_before`)[0]
+            let dividerElement = compareElement.getElementsByClassName(`_divider`)[0]
+            let pulsatingCircleElement = compareElement.getElementsByClassName(`_pulsating-circle`)[0]
+
+            let ratio = 0.5;
+
+            let pulseTween = null;
+
+            function startPulse() {
+                if (pulseTween == null) {
+                    pulseTween = gsap.to(pulsatingCircleElement, {
+                        delay: 2,
+                        scale: 1.75,
+                        opacity: 0,
+                        duration: 1.5,
+                        repeat: -1,
+                        repeatDelay: 1,
+                        ease: "power1.inOut"
+                    });
+                }
+            }
+            startPulse()
+
+            function stopPulse() {
+                pulseTween.revert();
+                pulseTween = null;
+            }
+
+            function onDrag() {
+                let width = compareElement.getBoundingClientRect().width;
+                gsap.set(beforeImage, {
+                    clipPath: `inset(0px ${width - draggable.x}px 0px 0px)`
+                });
+                ratio = draggable.x / width;
+
+                if (pulseTween !== null) {
+                    stopPulse()
+                }
+            }
+
+            let draggable = new Draggable(dividerElement, {
+                type: "x",
+                bounds: compareElement,
+                onDrag: onDrag,
+                onThrowUpdate: onDrag,
+                onDragEnd: startPulse,
+                onThrowComplete: startPulse,
+                inertia: true
+            });
+
+            function onResize() {
+                let width = compareElement.getBoundingClientRect().width;
+                let x = ratio * width;
+
+                gsap.set(dividerElement, {
+                    x: x
+                });
+
+                gsap.set(beforeImage, {
+                    clipPath: `inset(0px ${width - x}px 0px 0px)`
+                });
+
+                draggable.update(true);
+            }
+
+            window.addEventListener("resize", onResize);
+            onResize();
+
+        });
+    }
+}
+
+function caseStudySectionDrag(container = document) {
+    let dragElements = container.getElementsByClassName(`cs-int-drag`);
+
+    if (dragElements) {
+        Array.from(dragElements).forEach(dragElement => {
+
+            let galleryElement = dragElement.getElementsByClassName(`_gallery`)[0];
+
+            Draggable.create(galleryElement, {
+                type: "x",
+                bounds: {
+                    maxX: 0,
+                    minX: galleryElement.clientWidth - galleryElement.scrollWidth
+                },
+                edgeResistance: 0.65,
+                inertia: true
+            });
+
+        })
+    }
+
 }
 
 barba.init({
@@ -778,8 +1254,11 @@ barba.init({
             namespace: 'project',
             afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-
                 indexToProjectTransitionEnter();
+                caseStudyAnimations(data.next.container);
+                caseStudySectionCompare(data.next.container);
+                caseStudySectionDrag(data.next.container);
+                initBlobs(data.next.container);
 
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
