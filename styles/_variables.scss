@@ -126,6 +126,14 @@
     line-height: normal;
 }
 
+@mixin medium-72 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
 
 // Spacing Variables
 
@@ -147,6 +155,7 @@ $sp240: 15rem;
 
 // Color Variables
 
+$gray50: #CECECE;
 $gray40: #545454;
 $gray20: #8B8B8B;
 $blue: #3975CA;

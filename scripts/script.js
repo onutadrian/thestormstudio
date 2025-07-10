@@ -571,12 +571,18 @@ function becauseWeAnimation() {
 
 function testimonialsSection() {
     let testimonialsSection = document.querySelector(`.testimonials`)
+
+    if (!testimonialsSection) {
+        return;
+    }
+
     let testimonialsItems = testimonialsSection.querySelectorAll(`._testimonial-items ._item`)
 
     let progressBar = testimonialsSection.querySelector(`._progress ._current`)
 
     let currentTestimonialIndex = 0;
     let testimonialsObjects = []
+    let imageElements = {}
 
     Array.from(testimonialsItems).forEach(item => {
         let addToTestimonialsObjects = {
@@ -584,7 +590,7 @@ function testimonialsSection() {
             "name": `${item.querySelector(`._name`).innerHTML}`,
             "company": `${item.querySelector(`._company`).innerHTML}`,
             "position": `${item.querySelector(`._position`).innerHTML}`,
-            "imageId": `${item.getAttribute(`image-id`)}`,
+            "imageElement": testimonialsSection.querySelector(`#${item.getAttribute("image-id")}`),
             "caseStudyLink": `${item.getAttribute(`case-study-link`)}`
         }
 
@@ -599,10 +605,16 @@ function testimonialsSection() {
 
     function switchTestimonial(testimonialItem) {
 
-        let oldImage = testimonialsSection.querySelector(`#${testimonialItem.imageId}`)
+        let oldImage = testimonialItem.imageElement
 
-        let newImage;
-        let newTestimonialItem;
+        currentTestimonialIndex++;
+
+        if (currentTestimonialIndex > testimonialsObjects.length - 1) {
+            currentTestimonialIndex = 0;
+        }
+
+        let newTestimonialItem = testimonialsObjects[currentTestimonialIndex]
+        let newImage = newTestimonialItem.imageElement
 
         let animationTimeline = gsap.timeline()
 
@@ -637,22 +649,6 @@ function testimonialsSection() {
             }, `<+=0.1`)
             .to({}, {
                 onComplete: function () {
-
-                    currentTestimonialIndex++;
-
-                    if (currentTestimonialIndex > testimonialsObjects.length - 1) {
-                        currentTestimonialIndex = 0;
-                    }
-
-                    newTestimonialItem = testimonialsObjects[currentTestimonialIndex]
-
-                    console.log(newTestimonialItem.imageId)
-
-                    newImage = testimonialsSection.querySelector(`#${newTestimonialItem.imageId}`)
-
-                    console.log(newImage)
-                    console.log(`----------------`)
-
                     quoteElement.innerHTML = newTestimonialItem.quote
                     nameElement.innerHTML = newTestimonialItem.name
                     companyElement.innerHTML = newTestimonialItem.company
@@ -662,8 +658,7 @@ function testimonialsSection() {
             .to(newImage, {
                 duration: 0.3,
                 autoAlpha: 1,
-
-            })
+            }, `<`)
             .to(quoteElement, {
                 duration: 0.4,
                 y: 0,
@@ -692,7 +687,7 @@ function testimonialsSection() {
     }
 
     gsap.to(progressBar, {
-        duration: 10,
+        duration: 8,
         width: `100%`,
         ease: `none`,
         repeat: -1,
@@ -700,40 +695,47 @@ function testimonialsSection() {
             switchTestimonial(testimonialsObjects[currentTestimonialIndex])
         }
     })
-}
 
+    let snapTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: testimonialsSection,
+            start: "0% 10%",
+            end: "100% 90%",
+            scrub: true,
+            //markers: true,
+            onUpdate: self => {
 
+                let topEnterAlignInProgress = false;
+                let bottomEnterAlignInProgress = false;
 
-async function indexToProjectTransitionLeave(trigger) {
-    if (!trigger.hasAttribute(`video-id`)) {
-        return
-    };
+                // top enter align
+                if (self.progress > 0 && self.progress < 0.3 && !topEnterAlignInProgress && scrollDirection == 1) {
+                    topEnterAlignInProgress = true;
+                
+                    const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset;
 
-    let videoID = trigger.getAttribute(`video-id`);
-    let videoElement = document.querySelector(`#${videoID}`);
+                    lenis.scrollTo(scollToPos, {
+                        onComplete: () => {
+                            topEnterAlignInProgress = false;
+                        }
+                    })
+                }
 
-    let transitionWrapper = document.querySelector(`.video-transition-wrapper`);
-
-    let state = Flip.getState(videoElement)
-
-    transitionWrapper.appendChild(videoElement)
-
-    gsap.to(transitionWrapper, {
-        display: `block`,
-        autoAlpha: 1,
-        duration: 0
-    })
-
-    Flip.from(state, {
-        duration: 0.0
-    })
-
-    await gsap.to(videoElement, {
-        autoAlpha: 1,
-        duration: 0.3
+                //bottom enter align
+                if (self.progress < 1 && self.progress > 0.7 && !bottomEnterAlignInProgress && scrollDirection == -1) {
+                    bottomEnterAlignInProgress = true;
+                
+                    const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset; 
+                
+                    lenis.scrollTo(scollToPos, {
+                        onComplete: () => {
+                            bottomEnterAlignInProgress = false;
+                        }
+                    })
+                }
+            }
+        }
     });
-
-
 }
 
 function initBlobs(container = document) {
@@ -751,77 +753,6 @@ function initBlobs(container = document) {
         let dragHoverElement = container.getElementsByClassName(`cs-int-drag`)[0].querySelectorAll(`._content`);
         createBlob(dragBlobElement, dragBlobContent, dragHoverElement, 128)
     }
-}
-
-async function indexToProjectTransitionEnter() {
-
-    let transitionWrapper = document.getElementsByClassName(`video-transition-wrapper`)[0];
-    if (!transitionWrapper.hasChildNodes()) {
-        return;
-    }
-
-    let videoFromTransition = transitionWrapper.getElementsByTagName(`video`)[0];
-    let projectHero = document.getElementsByClassName(`project-hero`)[0]
-    let videoWrapper = projectHero.getElementsByClassName(`_video-wrapper`)[0]
-    let inPageVideo = videoWrapper.getElementsByTagName(`video`)[0]
-    let projectTitle = projectHero.getElementsByClassName(`_title`)[0]
-    let projectMetaWrappers = projectHero.getElementsByClassName(`_meta-wrapper`)
-
-    gsap.to(videoFromTransition, {
-        autoAlpha: 1,
-        duration: 0
-    });
-
-    gsap.to(projectTitle, {
-        autoAlpha: 0,
-        duration: 0
-    })
-
-    gsap.to(Array.from(projectMetaWrappers), {
-        autoAlpha: 0,
-        duration: 0
-    })
-
-    await sleep(500);
-
-    window.scrollTo(0, 0);
-
-    inPageVideo.remove();
-    videoFromTransition.parentNode.insertBefore(videoWrapper, videoFromTransition);
-    videoWrapper.appendChild(videoFromTransition)
-
-    let state = Flip.getState(videoWrapper)
-
-    projectHero.appendChild(videoWrapper)
-
-    gsap.to(transitionWrapper, {
-        autoAlpha: 0,
-        duration: 0
-    })
-
-    gsap.fromTo(projectTitle, {
-        y: 24
-    }, {
-        y: 0,
-        autoAlpha: 1,
-        duration: 0.3,
-        delay: 0.8
-    })
-
-    gsap.fromTo(Array.from(projectMetaWrappers), {
-        y: 24
-    }, {
-        y: 0,
-        autoAlpha: 1,
-        duration: 0.3,
-        stagger: 0.1,
-        delay: 0.9
-    })
-
-    await Flip.from(state, {
-        duration: 1,
-        ease: "power2.inOut"
-    })
 }
 
 function caseStudyAnimations(container = document) {
@@ -1218,6 +1149,109 @@ function caseStudySectionDrag(container = document) {
 
 }
 
+async function indexToProjectTransitionLeave(trigger) {
+    if (!trigger.hasAttribute(`video-id`)) {
+        return
+    };
+
+    let videoID = trigger.getAttribute(`video-id`);
+    let videoElement = document.querySelector(`#${videoID}`);
+
+    let transitionWrapper = document.querySelector(`.video-transition-wrapper`);
+
+    let state = Flip.getState(videoElement)
+
+    transitionWrapper.appendChild(videoElement)
+
+    gsap.to(transitionWrapper, {
+        display: `block`,
+        autoAlpha: 1,
+        duration: 0
+    })
+
+    Flip.from(state, {
+        duration: 0.0
+    })
+
+    await gsap.to(videoElement, {
+        autoAlpha: 1,
+        duration: 0.3
+    });
+
+
+}
+
+async function indexToProjectTransitionEnter() {
+
+    let transitionWrapper = document.getElementsByClassName(`video-transition-wrapper`)[0];
+    if (!transitionWrapper.hasChildNodes()) {
+        return;
+    }
+
+    let videoFromTransition = transitionWrapper.getElementsByTagName(`video`)[0];
+    let projectHero = document.getElementsByClassName(`project-hero`)[0]
+    let videoWrapper = projectHero.getElementsByClassName(`_video-wrapper`)[0]
+    let inPageVideo = videoWrapper.getElementsByTagName(`video`)[0]
+    let projectTitle = projectHero.getElementsByClassName(`_title`)[0]
+    let projectMetaWrappers = projectHero.getElementsByClassName(`_meta-wrapper`)
+
+    gsap.to(videoFromTransition, {
+        autoAlpha: 1,
+        duration: 0
+    });
+
+    gsap.to(projectTitle, {
+        autoAlpha: 0,
+        duration: 0
+    })
+
+    gsap.to(Array.from(projectMetaWrappers), {
+        autoAlpha: 0,
+        duration: 0
+    })
+
+    await sleep(500);
+
+    window.scrollTo(0, 0);
+
+    inPageVideo.remove();
+    videoFromTransition.parentNode.insertBefore(videoWrapper, videoFromTransition);
+    videoWrapper.appendChild(videoFromTransition)
+
+    let state = Flip.getState(videoWrapper)
+
+    projectHero.appendChild(videoWrapper)
+
+    gsap.to(transitionWrapper, {
+        autoAlpha: 0,
+        duration: 0
+    })
+
+    gsap.fromTo(projectTitle, {
+        y: 24
+    }, {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.3,
+        delay: 0.8
+    })
+
+    gsap.fromTo(Array.from(projectMetaWrappers), {
+        y: 24
+    }, {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.3,
+        stagger: 0.1,
+        delay: 0.9
+    })
+
+    await Flip.from(state, {
+        duration: 1,
+        ease: "power2.inOut"
+    })
+}
+
 barba.init({
     transitions: [{
         name: 'projectTransition',
@@ -1254,6 +1288,7 @@ barba.init({
             namespace: 'project',
             afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
                 indexToProjectTransitionEnter();
                 caseStudyAnimations(data.next.container);
                 caseStudySectionCompare(data.next.container);
