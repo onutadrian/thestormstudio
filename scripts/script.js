@@ -699,8 +699,8 @@ function testimonialsSection() {
     let snapTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: testimonialsSection,
-            start: "0% 10%",
-            end: "100% 90%",
+            start: "0% 15%",
+            end: "100% 85%",
             scrub: true,
             //markers: true,
             onUpdate: self => {

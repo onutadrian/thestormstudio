@@ -499,119 +499,125 @@ header {
 
 .testimonials {
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
+    height: 120vh;
     color: #ffffff;
+    background: red;
 
-    ._progress {
-        position: absolute;
+    .sticky-wrapper {
+        position: sticky;
         top: 0;
-        width: 100%;
-        height: 0.25rem;
-        background: $accentblue;
-        z-index: 10;
-
-        ._current {
-            position: absolute;
-            top: 0;
-            width: 0%;
-            height: 0.25rem;
-            background: $yellow;
-            z-index: 11;
-        }
-    }
-
-    ._background-images {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        background: #000000;
-
-        ._gradient {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
-            z-index: 5;
-        }
-
-        img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100.1%;
-            min-height: 100.1%;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            opacity: 0;
-
-            &:first-child {
-                opacity: 1;
-            }
-        }
-    }
-
-    ._flex-wrapper {
-        width: 100%;
         height: 100vh;
-        position: relative;
-        z-index: 10;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-end;
+        overflow: hidden;
 
+        ._progress {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 0.25rem;
+            background: $accentblue;
+            z-index: 10;
 
-        ._left {
-            margin-bottom: $sp120;
+            ._current {
+                position: absolute;
+                top: 0;
+                width: 0%;
+                height: 0.25rem;
+                background: $yellow;
+                z-index: 11;
+            }
+        }
 
-            ._quote {
-                @include medium-36;
-                max-width: 800px;
-                margin-bottom: $sp64;
+        ._background-images {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            background: #000000;
+
+            ._gradient {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
+                z-index: 5;
             }
 
-            ._from {
-                ._name {
-                    @include book-16;
-                    margin-bottom: $sp8;
-                }
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                min-width: 100.1%;
+                min-height: 100.1%;
+                transform: translate(-50%, -50%);
+                object-fit: cover;
+                opacity: 0;
 
-                ._company {
-                    @include medium-16;
-                    margin-bottom: $sp16;
-                }
-
-                ._position {
-                    @include book-20;
-                    color: $accentblue;
+                &:first-child {
+                    opacity: 1;
                 }
             }
         }
 
-        ._right {
-            margin-bottom: $sp120;
+        ._flex-wrapper {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end;
 
-            .cta-button {
-                &:hover {
-                    >p {
-                        color: $yellow;
+
+            ._left {
+                margin-bottom: $sp120;
+
+                ._quote {
+                    @include medium-36;
+                    max-width: 800px;
+                    margin-bottom: $sp64;
+                }
+
+                ._from {
+                    ._name {
+                        @include book-16;
+                        margin-bottom: $sp8;
                     }
 
-                    >._icon {
-                        svg {
+                    ._company {
+                        @include medium-16;
+                        margin-bottom: $sp16;
+                    }
+
+                    ._position {
+                        @include book-20;
+                        color: $accentblue;
+                    }
+                }
+            }
+
+            ._right {
+                margin-bottom: $sp120;
+
+                .cta-button {
+                    &:hover {
+                        >p {
                             color: $yellow;
+                        }
+
+                        >._icon {
+                            svg {
+                                color: $yellow;
+                            }
                         }
                     }
                 }
             }
         }
-    }
 
-    ._testimonial-items {
-        display: none;
+        ._testimonial-items {
+            display: none;
+        }
     }
 }
 
