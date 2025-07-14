@@ -29,7 +29,7 @@ body {
 }
 
 .page-reveal {
-    //display: none;
+    display: none;
 
     position: fixed;
     top: 0;
@@ -710,6 +710,73 @@ footer {
     }
 }
 
+.case-study-overlay {
+    display: none;
+
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.9);
+
+    .width-limiter {
+        position: relative;
+        padding: $sp32 $sp64;
+    }
+
+    ._overlay-border {
+        position: absolute;
+        width: calc(100% - $sp64 * 2);
+        height: calc(100vh - $sp32 * 2);
+        border: 2px solid $black;
+        border-radius: 0.5rem;
+        z-index: 1000;
+        pointer-events: none;
+        background: #ffffff;
+    }
+
+    ._content {
+        position: relative;
+        z-index: 5000;
+        opacity: 0;
+        overflow-y: scroll;
+        margin: $sp4;
+        padding: $sp64;
+        height: calc(100vh - ($sp32 + $sp4) * 2);
+        display: flex;
+        flex-direction: column;
+
+        ._close-button {
+            margin-bottom: $sp64;
+        }
+
+        ._title {
+            margin-bottom: $sp64;
+            @include medium-36;
+        }
+
+        ._paragraphs {
+            margin-bottom: $sp64;
+            @include book-36;
+        }
+
+        ._button {
+            @include medium-24;
+            padding: $sp24;
+            width: 100%;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 2px solid $black;
+            text-align: center;
+
+            &:hover {
+                background: $black;
+                color: #ffffff;
+            }
+        }
+    }
+}
 
 .capabilities-hero {
     grid-column: 1 / 13;
@@ -775,6 +842,36 @@ footer {
             @include book-36;
             margin-bottom: $sp64;
             line-height: 130%;
+        }
+
+        ._button {
+            @include medium-24;
+            padding: $sp24 $sp120;
+            width: fit-content;
+            margin-bottom: $sp64;
+            transition: 0.1s;
+            cursor: pointer;
+            position: relative;
+
+            &:hover {
+                background: #ffffff;
+                color: $black;
+            }
+
+            ._content {
+                position: relative;
+                z-index: 10;
+            }
+
+            ._overlay-border {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 2px solid $black;
+                background: #ffffff;
+            }
         }
 
         ._divider {

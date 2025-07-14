@@ -2,6 +2,10 @@
 
 const lenis = new Lenis({
     autoRaf: true,
+    prevent: (node) => node.id === "caseStudyOverlayScroll",
+    anchors: {
+        offset: -64
+    }
 });
 
 gsap.registerPlugin(Flip, ScrollTrigger, Draggable, InertiaPlugin, SplitText)
@@ -711,7 +715,7 @@ function testimonialsSection() {
                 // top enter align
                 if (self.progress > 0 && self.progress < 0.3 && !topEnterAlignInProgress && scrollDirection == 1) {
                     topEnterAlignInProgress = true;
-                
+
                     const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset;
 
                     lenis.scrollTo(scollToPos, {
@@ -724,9 +728,9 @@ function testimonialsSection() {
                 //bottom enter align
                 if (self.progress < 1 && self.progress > 0.7 && !bottomEnterAlignInProgress && scrollDirection == -1) {
                     bottomEnterAlignInProgress = true;
-                
-                    const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset; 
-                
+
+                    const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset;
+
                     lenis.scrollTo(scollToPos, {
                         onComplete: () => {
                             bottomEnterAlignInProgress = false;
@@ -753,6 +757,22 @@ function initBlobs(container = document) {
         let dragHoverElement = container.getElementsByClassName(`cs-int-drag`)[0].querySelectorAll(`._content`);
         createBlob(dragBlobElement, dragBlobContent, dragHoverElement, 128)
     }
+}
+
+function caseStudyProgressBar(container = document) {
+
+    let currentProgressElement = container.querySelector(`.case-study-progress ._current`)
+
+    if (!currentProgressElement) return;
+
+    gsap.to(currentProgressElement, {
+        width: `100%`,
+        ease: "none",
+        scrollTrigger: {
+            scrub: 0.3,
+        }
+    });
+
 }
 
 function caseStudyAnimations(container = document) {
@@ -1181,6 +1201,102 @@ async function indexToProjectTransitionLeave(trigger) {
 
 }
 
+function caseStudyOverlay(container = document) {
+    let tellMeMoreButtons = container.querySelectorAll(`.capabilities section ._button`)
+
+    if (tellMeMoreButtons.length === 0) return;
+
+    let caseStudyOverlayElement = container.querySelector(`.case-study-overlay`)
+    let caseStudyOverlayAppendIn = caseStudyOverlayElement.querySelector(`.width-limiter`)
+    let caseStudyOverlayContent = caseStudyOverlayElement.querySelector(`._content`)
+    let overlayBorder;
+    let lastTellMeMoreButton = null;
+
+    let tellMeLessButton = caseStudyOverlayElement.querySelector(`._button`)
+
+    function closeOverlay() {
+        overlayBorder = caseStudyOverlayElement.querySelector(`._overlay-border`)
+        let state = Flip.getState(overlayBorder)
+        lastTellMeMoreButton.appendChild(overlayBorder)
+
+        let buttonContent = lastTellMeMoreButton.querySelector(`._content`)
+
+        let animationTimeline = gsap.timeline()
+
+        animationTimeline.to(caseStudyOverlayContent, {
+                autoAlpha: 0,
+                duration: 0
+            })
+            .to(caseStudyOverlayElement, {
+                autoAlpha: 0,
+                duration: 0.6,
+            })
+            .to(caseStudyOverlayElement, {
+                autoAlpha: 0,
+                display: `block`,
+                duration: 0
+            })
+            .to(buttonContent, {
+                autoAlpha: 1
+            })
+
+        Flip.from(state, {
+            duration: 1,
+            ease: `power2.inOut`
+        })
+    }
+
+    tellMeLessButton.addEventListener(`click`, () => {
+        closeOverlay()
+    })
+
+    Array.from(tellMeMoreButtons).forEach(button => {
+        button.addEventListener(`click`, () => {
+
+            let buttonContent = button.querySelector(`._content`)
+
+            //lenis.stop()
+
+            lastTellMeMoreButton = button;
+
+            overlayBorder = button.querySelector(`._overlay-border`)
+            let state = Flip.getState(overlayBorder)
+            caseStudyOverlayAppendIn.insertBefore(overlayBorder, caseStudyOverlayContent)
+
+            let animationTimeline = gsap.timeline()
+
+            animationTimeline.to(caseStudyOverlayElement, {
+                    autoAlpha: 0,
+                    display: `block`,
+                    duration: 0
+                })
+                .to(caseStudyOverlayElement, {
+                    autoAlpha: 1,
+                    duration: 0.6,
+                })
+                .to(caseStudyOverlayContent, {
+                    y: 0,
+                    autoAlpha: 1
+                }, `<+=0.8`)
+                .to(buttonContent, {
+                    autoAlpha: 0
+                })
+
+            Flip.from(state, {
+                duration: 1,
+                ease: `power2.inOut`
+            })
+        })
+    })
+
+
+
+
+}
+
+caseStudyOverlay()
+
+
 async function indexToProjectTransitionEnter() {
 
     let transitionWrapper = document.getElementsByClassName(`video-transition-wrapper`)[0];
@@ -1260,7 +1376,6 @@ barba.init({
 
             const triggeredElement = data.trigger;
             if (triggeredElement) {
-                console.log(triggeredElement)
                 await indexToProjectTransitionLeave(triggeredElement);
             }
         }
@@ -1294,6 +1409,7 @@ barba.init({
                 caseStudySectionCompare(data.next.container);
                 caseStudySectionDrag(data.next.container);
                 initBlobs(data.next.container);
+                caseStudyProgressBar(data.next.container)
 
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
