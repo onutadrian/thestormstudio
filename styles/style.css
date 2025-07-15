@@ -63,6 +63,62 @@
   z-index: 11;
 }
 
+.next-project-wrapper {
+  position: fixed;
+  bottom: 4.5rem;
+  right: 4.5rem;
+  z-index: 500;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  transition: 0.3s;
+  cursor: pointer;
+  opacity: 0;
+}
+.next-project-wrapper ._thumbnail {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 0.5rem;
+  transition: 0.3s;
+}
+:hover > .next-project-wrapper ._thumbnail {
+  transform: translateY(-90%);
+}
+.next-project-wrapper ._content {
+  position: relative;
+  z-index: 500;
+  background: #ffffff;
+  width: 17.5rem;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.25);
+}
+.next-project-wrapper ._content ._button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.next-project-wrapper ._content ._button ._text {
+  font-family: "mainfont", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: normal;
+}
+.next-project-wrapper ._content ._project-title {
+  font-family: "mainfont", sans-serif;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  line-height: 130%;
+}
+
 .project-hero {
   padding-bottom: 5rem;
 }
@@ -615,6 +671,10 @@
   margin-bottom: 10rem;
   grid-column: 1/19;
   position: relative;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 .cs-int-compare canvas {
   position: absolute;
@@ -643,6 +703,7 @@
   height: 100%;
   color: #ffffff;
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+  display: none;
 }
 .cs-int-compare ._content ._images ._before ._text p {
   font-family: "mainfont", sans-serif;
@@ -664,6 +725,7 @@
   height: 100%;
   color: #ffffff;
   background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 100%);
+  display: none;
 }
 .cs-int-compare ._content ._images ._after ._text p {
   font-family: "mainfont", sans-serif;
@@ -862,7 +924,6 @@ body {
 }
 
 .page-reveal {
-  display: none;
   position: fixed;
   top: 0;
   width: 100%;
@@ -950,29 +1011,39 @@ body {
   opacity: 0.5;
 }
 
-header {
-  position: absolute;
+.header-wrapper {
+  position: fixed;
   top: 0;
-  width: calc(100% - 6rem);
+  left: 0;
+  right: 0;
+  z-index: 500;
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.header-wrapper header {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-top: 3.5rem;
-  z-index: 100;
+  padding: 1.5rem 0;
 }
-header ._center nav ul {
+.header-wrapper header ._center nav ul {
   display: flex;
   gap: 1.5rem;
 }
-header ._center nav ul li {
+.header-wrapper header ._center nav ul li {
   font-family: "mainfont", sans-serif;
   font-size: 1rem;
   font-weight: 500;
   line-height: normal;
   letter-spacing: 0.1rem;
 }
-header ._right a {
+.header-wrapper header ._right a {
   font-family: "mainfont", sans-serif;
   font-size: 1rem;
   font-weight: 500;
@@ -983,7 +1054,7 @@ header ._right a {
   border: 1px solid #212020;
   transition: 0.2s;
 }
-header ._right a:hover {
+.header-wrapper header ._right a:hover {
   background: #212020;
   color: #ffffff;
 }
@@ -1044,7 +1115,7 @@ header ._right a:hover {
 .projects-section ._sticky-wrapper ._projects-wrapper {
   position: absolute;
   top: 0;
-  z-index: 5;
+  z-index: 10;
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -1186,7 +1257,7 @@ header ._right a:hover {
 .what-sets-us-apart ._outcomes-wrapper ._cards-wrapper ._card ._content {
   position: absolute;
   top: 0;
-  z-index: 5;
+  z-index: 10;
   width: 100%;
   height: 100%;
   padding: 1.5rem;
@@ -1306,21 +1377,21 @@ header ._right a:hover {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
   background: #ffffff;
   position: relative;
-  z-index: 100;
+  z-index: 10;
 }
 .why-work-with-us ._animation-wrapper ._reasons-wrapper ._spacer {
   width: 100%;
   height: 1rem;
   background: #ffffff;
   position: relative;
-  z-index: 100;
+  z-index: 10;
 }
 .why-work-with-us ._animation-wrapper ._reasons-wrapper ._last-spacer {
   width: 100%;
   height: 10rem;
   background: #ffffff;
   position: relative;
-  z-index: 100;
+  z-index: 10;
 }
 
 .testimonials {
@@ -1341,7 +1412,7 @@ header ._right a:hover {
   width: 100%;
   height: 0.25rem;
   background: #C2D0D4;
-  z-index: 10;
+  z-index: 500;
 }
 .testimonials .sticky-wrapper ._progress ._current {
   position: absolute;
@@ -1349,7 +1420,7 @@ header ._right a:hover {
   width: 0%;
   height: 0.25rem;
   background: #FFBF00;
-  z-index: 11;
+  z-index: 500;
 }
 .testimonials .sticky-wrapper ._background-images {
   height: 100%;
@@ -1363,7 +1434,7 @@ header ._right a:hover {
   position: absolute;
   top: 0;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
-  z-index: 5;
+  z-index: 10;
 }
 .testimonials .sticky-wrapper ._background-images img {
   position: absolute;
@@ -1455,7 +1526,7 @@ footer ._contact-blob {
   transform-origin: 50% 50%;
   transform: translate(-50%, -50%);
   will-change: width, height, transform, border;
-  z-index: 999;
+  z-index: 500;
   pointer-events: none;
   background: #212020;
 }
@@ -1557,7 +1628,7 @@ footer ._logo {
 }
 .case-study-overlay ._content {
   position: relative;
-  z-index: 5000;
+  z-index: 1000;
   opacity: 0;
   overflow-y: scroll;
   margin: 0.25rem;
@@ -1640,7 +1711,7 @@ footer ._logo {
 }
 .capabilities ._nav ._sticky-wrapper {
   position: sticky;
-  top: 4rem;
+  top: 6.5rem;
   display: flex;
   flex-direction: column;
   padding-bottom: 10rem;

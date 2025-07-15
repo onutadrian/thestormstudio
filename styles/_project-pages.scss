@@ -207,6 +207,58 @@
     }
 }
 
+.next-project-wrapper {
+    position: fixed;
+    bottom: $sp72;
+    right: $sp72;
+    z-index: 500;
+    width: fit-content;
+    height: fit-content;
+    transition: 0.3s;
+    cursor: pointer;
+    opacity: 0;
+
+    ._thumbnail {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        object-fit: cover;
+        border-radius: $sp8;
+        transition: 0.3s;
+
+        :hover > & {
+            transform: translateY(-90%);
+        }
+    }
+
+    ._content {
+        position: relative;
+        z-index: 500;
+        background: #ffffff;
+        width: 17.5rem;
+        border-radius: $sp8;
+        padding: $sp32;
+        box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.25);
+
+        ._button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: $sp24;
+
+            ._text {
+                @include medium-16;
+            }
+        }
+
+        ._project-title {
+            @include medium-24;
+            line-height: 130%;
+        }
+    }
+}
+
 .project-hero {
     padding-bottom: $sp80;
 
@@ -621,6 +673,9 @@
     margin-bottom: $sp160;
     grid-column: 1 / 19;
     position: relative;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 
     canvas {
         position: absolute;
@@ -650,6 +705,7 @@
                     height: 100%;
                     color: #ffffff;
                     background: linear-gradient(90deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+                    display: none;
 
                     p {
                         @include medium-ms;
@@ -671,6 +727,7 @@
                     height: 100%;
                     color: #ffffff;
                     background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 100%);
+                    display: none;
 
                     p {
                         @include medium-ms;
