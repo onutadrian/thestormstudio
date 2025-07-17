@@ -354,7 +354,7 @@ function projectsSection(container = document) {
         }
     });
 
-    animationTimeline.fromTo(stickyWarpperElement, {
+animationTimeline.fromTo(stickyWarpperElement, {
             y: 160,
             width: "80%",
             borderRadius: "32px"
@@ -362,11 +362,12 @@ function projectsSection(container = document) {
             y: 0,
             width: "100%",
             borderRadius: "0px",
-            duration: 0.4,
-            onComplete: () => {
-                headerScrollAnimation.hide
-            }
+            duration: 0.4
         })
+        .to(headerWrapperElement, {
+            autoAlpha: 0,
+            duration: 0.1
+        }, `<+=0.3`)
         .fromTo(projectsWrapperElement, {
             autoAlpha: 0,
             y: 48
@@ -392,7 +393,11 @@ function projectsSection(container = document) {
             autoAlpha: 0,
             duration: 0.1
         }, "<")
-
+        .to(headerWrapperElement, {
+            autoAlpha: 1,
+            duration: 0.1
+        }, `<+=0.3`)
+        
     function updateAndAnimateProjectTags(tags) {
         let tagsWrapperElement = container.querySelector(`.projects-section`).querySelector(`._tags-wrapper`)
         tagsWrapperElement.innerHTML = ``;
