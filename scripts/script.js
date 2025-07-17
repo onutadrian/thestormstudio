@@ -2,6 +2,7 @@
 
 const lenis = new Lenis({
     autoRaf: true,
+    overscroll: false,
     prevent: (node) => node.id === "caseStudyOverlayScroll",
     anchors: {
         offset: -96
@@ -16,6 +17,14 @@ lenis.on('scroll', (e) => {
     scrollDirection = e.direction
 })
 
+// isScrollProgrammatic to diferentiate between user an non-user scroll
+let isScrollProgrammatic = false;
+
+// Disable scroll restoration
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
 // Sleep function (to be used for delays)
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -24,6 +33,7 @@ function sleep(ms) {
 // isDesktop detect (based on screen width)
 let mobileBreakpoint = 1024; //px
 let isDesktop = window.innerWidth > mobileBreakpoint;
+
 
 // switchedToDesktop / switchedToMobile custom events (based on screen width) and isDesktop updater 
 window.addEventListener('resize', () => {
@@ -82,8 +92,6 @@ function textAnimations() {
 
     })
 }
-
-
 
 function createBlob(blobElement, blobContent, hoverElements, blobSize, ) {
 
@@ -188,6 +196,7 @@ function createBlob(blobElement, blobContent, hoverElements, blobSize, ) {
 // scrollDirection = 1 (down) / -1 (up)
 // mobileBreakpoint
 // isDesktop = true / false
+// isScrollProgrammatic = true/false
 
 // Helper Functions
 // sleep(ms)
@@ -281,7 +290,6 @@ function pageReveal() {
 function projectsSection(container = document) {
 
     let headerWrapperElement = container.querySelector(`.header-wrapper`)
-
     let homepageHeroElement = container.querySelector(`.homepage-hero`)
 
     let projectsSectionElement = container.querySelector(`.projects-section`)
@@ -291,8 +299,6 @@ function projectsSection(container = document) {
     let projectItemElements = projectsWrapperElement.querySelectorAll(`._project-item`);
 
     let previousProject = null;
-
-
 
     let animationTimeline = gsap.timeline({
         scrollTrigger: {
@@ -313,11 +319,20 @@ function projectsSection(container = document) {
                     const trigger = animationTimeline.scrollTrigger;
                     const scollToPos = trigger.start + 0.5 * (trigger.end - trigger.start); // scrollToPos = 40% of timeline
 
+
+                    isScrollProgrammatic = true;
                     lenis.scrollTo(scollToPos, {
                         onComplete: () => {
+                            isScrollProgrammatic = false;
                             topEnterAlignInProgress = false;
                         }
                     })
+
+                    //programaticallyScrollTo(scollToPos, {
+                    //    onComplete: () => {
+                    //        topEnterAlignInProgress = false;
+                    //    }
+                    //})
                 }
 
                 //bottom enter align
@@ -327,8 +342,10 @@ function projectsSection(container = document) {
                     const trigger = animationTimeline.scrollTrigger;
                     const scollToPos = trigger.start + 0.5 * (trigger.end - trigger.start); // scrollToPos = 40% of timeline
 
+                    isScrollProgrammatic = true;
                     lenis.scrollTo(scollToPos, {
                         onComplete: () => {
+                            isScrollProgrammatic = false;
                             bottomEnterAlignInProgress = false;
                         }
                     })
@@ -345,12 +362,11 @@ function projectsSection(container = document) {
             y: 0,
             width: "100%",
             borderRadius: "0px",
-            duration: 0.4
+            duration: 0.4,
+            onComplete: () => {
+                headerScrollAnimation.hide
+            }
         })
-        .to(headerWrapperElement, {
-            autoAlpha: 0,
-            duration: 0.1
-        }, `<+=0.3`)
         .fromTo(projectsWrapperElement, {
             autoAlpha: 0,
             y: 48
@@ -376,10 +392,6 @@ function projectsSection(container = document) {
             autoAlpha: 0,
             duration: 0.1
         }, "<")
-        .to(headerWrapperElement, {
-            autoAlpha: 1,
-            duration: 0.1
-        }, `<+=0.3`)
 
     function updateAndAnimateProjectTags(tags) {
         let tagsWrapperElement = container.querySelector(`.projects-section`).querySelector(`._tags-wrapper`)
@@ -631,6 +643,8 @@ function testimonialsSection(container = document) {
         let newTestimonialItem = testimonialsObjects[currentTestimonialIndex]
         let newImage = newTestimonialItem.imageElement
 
+        ctaButton.setAttribute(`href`, testimonialItem.caseStudyLink)
+
         let animationTimeline = gsap.timeline()
 
         animationTimeline.to(quoteElement, {
@@ -731,8 +745,11 @@ function testimonialsSection(container = document) {
 
                     const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset;
 
+                    isScrollProgrammatic = true;
+
                     lenis.scrollTo(scollToPos, {
                         onComplete: () => {
+                            isScrollProgrammatic = false;
                             topEnterAlignInProgress = false;
                         }
                     })
@@ -744,8 +761,11 @@ function testimonialsSection(container = document) {
 
                     const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset;
 
+                    isScrollProgrammatic = true;
+
                     lenis.scrollTo(scollToPos, {
                         onComplete: () => {
+                            isScrollProgrammatic = false;
                             bottomEnterAlignInProgress = false;
                         }
                     })
@@ -1202,6 +1222,8 @@ async function indexToProjectTransitionLeave(trigger) {
         return
     };
 
+    isScrollProgrammatic = false;
+
     let videoID = trigger.getAttribute(`video-id`);
     let videoElement = document.querySelector(`#${videoID}`);
 
@@ -1227,24 +1249,38 @@ async function indexToProjectTransitionLeave(trigger) {
     });
 }
 
-function caseStudyOverlay(container = document) {
+function capabilitiesOverlay(container = document) {
     let tellMeMoreButtons = container.querySelectorAll(`.capabilities section ._button`)
 
     if (tellMeMoreButtons.length === 0) return;
 
-    let caseStudyOverlayElement = container.querySelector(`.case-study-overlay`)
-    let caseStudyOverlayAppendIn = caseStudyOverlayElement.querySelector(`.width-limiter`)
-    let caseStudyOverlayContent = caseStudyOverlayElement.querySelector(`._content`)
+    let capabilitiesOverlayElement = container.querySelector(`.capabilities-overlay`)
+
+    let capabilitiesOverlayAppendIn = capabilitiesOverlayElement.querySelector(`.width-limiter`)
+    let capabilitiesOverlayContent = capabilitiesOverlayElement.querySelector(`._content`)
     let overlayBorder;
     let lastTellMeMoreButton = null;
 
-    let tellMeLessButton = caseStudyOverlayElement.querySelector(`._button`)
+    let capabilitiesOverlayTitleElement = capabilitiesOverlayElement.querySelector(`._title`)
+    let capabilitiesOverlayParagraphsElement = capabilitiesOverlayElement.querySelector(`._paragraphs`)
+
+    let tellMeLessButton = capabilitiesOverlayElement.querySelector(`._button`)
+    let outsideClickElement = capabilitiesOverlayElement.querySelector(`._outside-click`)
 
     Array.from(tellMeMoreButtons).forEach(button => {
         button.addEventListener(`click`, () => {
 
-            //lenis.stop()
-            caseStudyOverlayContent.scrollTo(0, 0);
+            lenis.stop()
+
+            let itemContent = button.parentNode
+
+            console.log(itemContent)
+
+            capabilitiesOverlayTitleElement.innerHTML = itemContent.querySelector(`._overlay-content ._title`).innerHTML
+            capabilitiesOverlayParagraphsElement.innerHTML = itemContent.querySelector(`._overlay-content ._paragraphs`).innerHTML
+
+
+            capabilitiesOverlayContent.scrollTo(0, 0);
 
             let buttonContent = button.querySelector(`._content`)
 
@@ -1252,20 +1288,20 @@ function caseStudyOverlay(container = document) {
 
             overlayBorder = button.querySelector(`._overlay-border`)
             let state = Flip.getState(overlayBorder)
-            caseStudyOverlayAppendIn.insertBefore(overlayBorder, caseStudyOverlayContent)
+            capabilitiesOverlayAppendIn.insertBefore(overlayBorder, capabilitiesOverlayContent)
 
             let animationTimeline = gsap.timeline()
 
-            animationTimeline.to(caseStudyOverlayElement, {
+            animationTimeline.to(capabilitiesOverlayElement, {
                     autoAlpha: 0,
                     display: `block`,
                     duration: 0
                 })
-                .to(caseStudyOverlayElement, {
+                .to(capabilitiesOverlayElement, {
                     autoAlpha: 1,
                     duration: 0.2,
                 })
-                .to(caseStudyOverlayContent, {
+                .to(capabilitiesOverlayContent, {
                     y: 0,
                     autoAlpha: 1,
                     duration: 0.2
@@ -1283,8 +1319,9 @@ function caseStudyOverlay(container = document) {
 
     function closeOverlay() {
 
-        //lenis.start()
-        overlayBorder = caseStudyOverlayElement.querySelector(`._overlay-border`)
+        lenis.start()
+
+        overlayBorder = capabilitiesOverlayElement.querySelector(`._overlay-border`)
         let state = Flip.getState(overlayBorder)
         lastTellMeMoreButton.appendChild(overlayBorder)
 
@@ -1292,15 +1329,15 @@ function caseStudyOverlay(container = document) {
 
         let animationTimeline = gsap.timeline()
 
-        animationTimeline.to(caseStudyOverlayContent, {
+        animationTimeline.to(capabilitiesOverlayContent, {
                 autoAlpha: 0,
                 duration: 0.2
             })
-            .to(caseStudyOverlayElement, {
+            .to(capabilitiesOverlayElement, {
                 autoAlpha: 0,
                 duration: 0.2,
             })
-            .to(caseStudyOverlayElement, {
+            .to(capabilitiesOverlayElement, {
                 autoAlpha: 0,
                 display: `block`,
                 duration: 0
@@ -1319,6 +1356,10 @@ function caseStudyOverlay(container = document) {
     tellMeLessButton.addEventListener(`click`, () => {
         closeOverlay()
     })
+
+    outsideClickElement.addEventListener(`click`, () => {
+        closeOverlay()
+    })
 }
 
 function headerScrollAnimation(container = document) {
@@ -1334,34 +1375,41 @@ function headerScrollAnimation(container = document) {
     let lastDirection = null;
 
     window.addEventListener(`scroll`, () => {
-
         if (scrollDirection != lastDirection) {
             lastDirection = scrollDirection;
 
             if (scrollDirection == 1) {
                 headerAnimation.reverse()
-            } else {
+            } else if (scrollDirection == -1) {
                 headerAnimation.play()
             }
         }
-
     })
 
+    headerScrollAnimation.hide = function () {
+        headerAnimation.play()
+    }
+
+    headerScrollAnimation.show = function () {
+        headerAnimation.reverse()
+    }
 }
 
 async function indexToProjectTransitionEnter(container = document) {
 
     let transitionWrapper = document.getElementsByClassName(`video-transition-wrapper`)[0];
 
-    if (!transitionWrapper || !transitionWrapper.hasChildNodes()) return;
-
-    let headerWrapperElement = container.querySelector(`.header-wrapper`)
     let nextProjectWrapperElement = container.querySelector(`.next-project-wrapper`)
 
-    gsap.to(headerWrapperElement, {
-        autoAlpha: 0,
-        duration: 0
-    })
+    if (!transitionWrapper || !transitionWrapper.hasChildNodes()) {
+
+        gsap.to(nextProjectWrapperElement, {
+            autoAlpha: 1,
+            duration: 0
+        })
+
+        return;
+    }
 
     let videoFromTransition = transitionWrapper.getElementsByTagName(`video`)[0];
     let projectHero = document.getElementsByClassName(`project-hero`)[0]
@@ -1369,6 +1417,9 @@ async function indexToProjectTransitionEnter(container = document) {
     let inPageVideo = videoWrapper.getElementsByTagName(`video`)[0]
     let projectTitle = projectHero.getElementsByClassName(`_title`)[0]
     let projectMetaWrappers = projectHero.getElementsByClassName(`_meta-wrapper`)
+
+    inPageVideo.remove();
+    await sleep(500)
 
     gsap.to(videoFromTransition, {
         autoAlpha: 1,
@@ -1387,9 +1438,14 @@ async function indexToProjectTransitionEnter(container = document) {
 
     await sleep(500);
 
-    window.scrollTo(0, 0);
+    lenis.scrollTo(0, {
+        duration: 0.8,
+        easing: t => Math.sin((t * Math.PI) / 2),
+        onComplete: () => {
 
-    inPageVideo.remove();
+        }
+    })
+
     videoFromTransition.parentNode.insertBefore(videoWrapper, videoFromTransition);
     videoWrapper.appendChild(videoFromTransition)
 
@@ -1426,17 +1482,10 @@ async function indexToProjectTransitionEnter(container = document) {
         ease: "power2.inOut"
     })
 
-
-    gsap.to(headerWrapperElement, {
-        autoAlpha: 1,
-        duration: 0.3
-    })
-
     gsap.to(nextProjectWrapperElement, {
         autoAlpha: 1,
         duration: 0.3
     })
-
 
 }
 
@@ -1454,13 +1503,13 @@ barba.init({
     }],
     views: [{
             namespace: 'home',
-            beforeEnter(data) {
+            async afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
+                headerScrollAnimation(data.next.container)
                 textAnimations(data.next.container)
                 initBlobs(data.next.container)
                 pageReveal(data.next.container)
-                headerScrollAnimation(data.next.container)
                 projectsSection(data.next.container)
                 becauseWeAnimation(data.next.container)
                 testimonialsSection(data.next.container)
@@ -1470,6 +1519,15 @@ barba.init({
                         ScrollTrigger.refresh();
                     });
                 });
+
+                isScrollProgrammatic = true;
+
+                lenis.scrollTo(0, {
+                    immediate: true,
+                    onComplete: () => {
+                        isScrollProgrammatic = false;
+                    }
+                })
             }
         },
         {
@@ -1477,9 +1535,10 @@ barba.init({
             afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
+                headerScrollAnimation(data.next.container)
                 indexToProjectTransitionEnter();
                 initBlobs(data.next.container);
-                headerScrollAnimation(data.next.container)
+
                 caseStudyAnimations(data.next.container);
                 caseStudySectionCompare(data.next.container);
                 caseStudySectionDrag(data.next.container);
@@ -1494,19 +1553,29 @@ barba.init({
         },
         {
             namespace: `capabilities`,
-            afterEnter(data) {
+            async afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
-                initBlobs(data.next.container);
-                window.scrollTo(0, 0);
                 headerScrollAnimation(data.next.container)
-                caseStudyOverlay(data.next.container)
+                initBlobs(data.next.container);
+                capabilitiesOverlay(data.next.container)
 
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
                         ScrollTrigger.refresh();
                     });
                 });
+
+                await sleep(500)
+
+                isScrollProgrammatic = true;
+
+                lenis.scrollTo(0, {
+                    immediate: true,
+                    onComplete: () => {
+                        isScrollProgrammatic = false;
+                    }
+                })
             }
         }
     ]
