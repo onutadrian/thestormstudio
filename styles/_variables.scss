@@ -1,3 +1,10 @@
+@mixin mobile() {
+  @media screen and (max-width: 1024px) {
+    @content;
+  }
+}
+
+
 @font-face {
     font-family: 'mainfont';
     src: url('../media/fonts/mainfont.woff2') format('woff2-variations');

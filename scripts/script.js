@@ -830,10 +830,7 @@ function caseStudyProgressBar(container = document) {
 
 function caseStudyAnimations(container = document) {
 
-    let mm = gsap.matchMedia();
-
-    mm.add(`(min-width: ${mobileBreakpoint}px)`, () => {
-
+    
         let txtMainElements = container.querySelectorAll(".cs-txt-main-left, .cs-txt-main-right");
 
         if (txtMainElements) {
@@ -1090,11 +1087,10 @@ function caseStudyAnimations(container = document) {
                         scrollTrigger: {
                             trigger: visualElement,
                             start: '20% 80%',
+                            //markers: true
                         }
                     })
                 })
-
-
 
                 if (!descriptionParagraphs) return;
 
@@ -1118,7 +1114,7 @@ function caseStudyAnimations(container = document) {
             })
         }
 
-    })
+    
 }
 
 function caseStudySectionCompare(container = document) {
