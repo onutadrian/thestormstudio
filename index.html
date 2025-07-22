@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
     <title>Document</title>
     <link rel="stylesheet" href="styles/reset.css?v=1">
     <link rel="stylesheet" href="styles/style.css?v=1">
@@ -49,7 +50,10 @@
                             </ul>
                         </nav>
                     </div>
-                    <div class="_right"><a href="https://cal.com/adrian-furtuna/15min" target="null">LET'S TALK</a></div>
+                    <div class="_right">
+                        <div class="_mobile-hamburger">MENU</div>
+                        <a class="_lets-talk" href="https://cal.com/adrian-furtuna/15min" target="null">LET'S TALK</a>
+                    </div>
                 </header>
             </div>
         </div>
@@ -57,8 +61,7 @@
         <div class="main-grid width-limiter">
             <div class="homepage-hero">
                 <p class="_pre-heading">No buzzwords, no vanity metrics.</p>
-                <h1 class="_heading">Digital products people need<br>and competitors want.</h1>
-
+                <h1 class="_heading">Products people need<br>and competitors want.</h1>
                 <!--
                 <p class="_pre-heading">We design digital products people need and competitors want</p>
                 <h1 class="_heading">No buzzwords, no vanity metrics: just solution-driven design that serves your
@@ -69,11 +72,13 @@
 
         <section class="projects-section">
             <div class="_sticky-wrapper">
-                <div class="_background-videos">
-                    <video id="heroVideoBenefit" loop muted src="media/work/benefit/hero.webm"></video>
-                    <video id="heroVideoComprehend" loop muted src="media/work/ibm-comprehend/hero.webm"></video>
-                    <video id="heroVideoSanopass" loop muted src="media/work/sanopass/hero.webm"></video>
+                <div class="_sticky-wrapper-mobile">
+                    <div class="_background-videos">
+                        <video id="heroVideoBenefit" loop muted src="media/work/benefit/hero.webm"></video>
+                        <video id="heroVideoComprehend" loop muted src="media/work/ibm-comprehend/hero.webm"></video>
+                        <video id="heroVideoSanopass" loop muted src="media/work/sanopass/hero.webm"></video>
 
+                    </div>
                 </div>
 
                 <div class="_projects-wrapper">
@@ -136,7 +141,7 @@
                         <div class="_subheading">Our work balances user needs, business context, and technical
                             realities. That’s how you move from planning to traction.</div>
                         <a href="" class="cta-button">
-                            <p>See what we do</p>
+                            <p>Explore our services</p>
                             <div class="_icon">
                                 <svg width="37" height="23" viewBox="0 0 37 23" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -164,7 +169,16 @@
                         <img src="media/logo-blackrock.svg" alt="">
                         <img src="media/logo-suvoda.svg" alt="">
                     </div>
+
+                    <div class="_logos _logos-mobile-only">
+                        <img src="media/logo-agricover.svg" alt="">
+                        <img src="media/logo-medlife.svg" alt="">
+                        <img src="media/logo-edenred.svg" alt="">
+                        <img src="media/logo-blackrock.svg" alt="">
+                        <img src="media/logo-suvoda.svg" alt="">
+                    </div>
                 </div>
+
             </section>
         </div>
 
@@ -337,7 +351,8 @@
                 </div>
 
                 <div class="_testimonial-items">
-                    <div class="_item" image-id="testimonialImageBenefitSystems" case-study-link="work/benefit/index.html">
+                    <div class="_item" image-id="testimonialImageBenefitSystems"
+                        case-study-link="work/benefit/index.html">
                         <div class="_quote">“We found them to understand our business and our needs very quickly,
                             helping us identify answers to most challenging questions.”</div>
                         <div class="_name">Stefan Todorita</div>

@@ -289,6 +289,8 @@ function pageReveal() {
 
 function projectsSection(container = document) {
 
+    let matchMedia = gsap.matchMedia();
+
     let headerWrapperElement = container.querySelector(`.header-wrapper`)
     let homepageHeroElement = container.querySelector(`.homepage-hero`)
 
@@ -300,104 +302,108 @@ function projectsSection(container = document) {
 
     let previousProject = null;
 
-    let animationTimeline = gsap.timeline({
-        scrollTrigger: {
-            trigger: projectsSectionElement,
-            start: "0% 50%",
-            end: "100% 40%",
-            scrub: true,
-            //markers: true
-            onUpdate: self => {
+    matchMedia.add(`(min-width: ${mobileBreakpoint}px)`, () => { //only run on desktop
 
-                let topEnterAlignInProgress = false;
-                let bottomEnterAlignInProgress = false;
+        let animationTimeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: projectsSectionElement,
+                start: "0% 50%",
+                end: "100% 40%",
+                scrub: true,
+                //markers: true
+                onUpdate: self => {
 
-                // top enter align
-                if (self.progress > 0.32 && self.progress < 0.39 && !topEnterAlignInProgress && scrollDirection == 1) {
-                    topEnterAlignInProgress = true;
+                    let topEnterAlignInProgress = false;
+                    let bottomEnterAlignInProgress = false;
 
-                    const trigger = animationTimeline.scrollTrigger;
-                    const scollToPos = trigger.start + 0.5 * (trigger.end - trigger.start); // scrollToPos = 40% of timeline
+                    // top enter align
+                    if (self.progress > 0.32 && self.progress < 0.39 && !topEnterAlignInProgress && scrollDirection == 1) {
+                        topEnterAlignInProgress = true;
+
+                        const trigger = animationTimeline.scrollTrigger;
+                        const scollToPos = trigger.start + 0.5 * (trigger.end - trigger.start); // scrollToPos = 40% of timeline
 
 
-                    isScrollProgrammatic = true;
-                    lenis.scrollTo(scollToPos, {
-                        onComplete: () => {
-                            isScrollProgrammatic = false;
-                            topEnterAlignInProgress = false;
-                        }
-                    })
+                        isScrollProgrammatic = true;
+                        lenis.scrollTo(scollToPos, {
+                            onComplete: () => {
+                                isScrollProgrammatic = false;
+                                topEnterAlignInProgress = false;
+                            }
+                        })
 
-                    //programaticallyScrollTo(scollToPos, {
-                    //    onComplete: () => {
-                    //        topEnterAlignInProgress = false;
-                    //    }
-                    //})
-                }
+                        //programaticallyScrollTo(scollToPos, {
+                        //    onComplete: () => {
+                        //        topEnterAlignInProgress = false;
+                        //    }
+                        //})
+                    }
 
-                //bottom enter align
-                if (self.progress < 0.56 && self.progress > 0.51 && !bottomEnterAlignInProgress && scrollDirection == -1) {
-                    bottomEnterAlignInProgress = true;
+                    //bottom enter align
+                    if (self.progress < 0.56 && self.progress > 0.51 && !bottomEnterAlignInProgress && scrollDirection == -1) {
+                        bottomEnterAlignInProgress = true;
 
-                    const trigger = animationTimeline.scrollTrigger;
-                    const scollToPos = trigger.start + 0.5 * (trigger.end - trigger.start); // scrollToPos = 40% of timeline
+                        const trigger = animationTimeline.scrollTrigger;
+                        const scollToPos = trigger.start + 0.5 * (trigger.end - trigger.start); // scrollToPos = 40% of timeline
 
-                    isScrollProgrammatic = true;
-                    lenis.scrollTo(scollToPos, {
-                        onComplete: () => {
-                            isScrollProgrammatic = false;
-                            bottomEnterAlignInProgress = false;
-                        }
-                    })
+                        isScrollProgrammatic = true;
+                        lenis.scrollTo(scollToPos, {
+                            onComplete: () => {
+                                isScrollProgrammatic = false;
+                                bottomEnterAlignInProgress = false;
+                            }
+                        })
+                    }
                 }
             }
-        }
+        });
+
+        animationTimeline.fromTo(stickyWarpperElement, {
+                y: 160,
+                width: "80%",
+                borderRadius: "32px"
+            }, {
+                y: 0,
+                width: "100%",
+                borderRadius: "0px",
+                duration: 0.4
+            })
+            .to(headerWrapperElement, {
+                autoAlpha: 0,
+                duration: 0.1
+            }, `<+=0.3`)
+            .fromTo(projectsWrapperElement, {
+                autoAlpha: 0,
+                y: 48
+            }, {
+                autoAlpha: 1,
+                duration: 0.2,
+                y: 0
+            }, "<")
+            .to(homepageHeroElement, {
+                autoAlpha: 0,
+                duration: 0.2,
+            }, "<")
+            .to({}, {
+                duration: 0.2
+            })
+            .to(stickyWarpperElement, {
+                y: -160,
+                width: "80%",
+                borderRadius: "32px",
+                duration: 0.4
+            })
+            .to(projectsWrapperElement, {
+                autoAlpha: 0,
+                duration: 0.1
+            }, "<")
+            .to(headerWrapperElement, {
+                autoAlpha: 1,
+                duration: 0.1
+            }, `<+=0.3`)
+
     });
 
-animationTimeline.fromTo(stickyWarpperElement, {
-            y: 160,
-            width: "80%",
-            borderRadius: "32px"
-        }, {
-            y: 0,
-            width: "100%",
-            borderRadius: "0px",
-            duration: 0.4
-        })
-        .to(headerWrapperElement, {
-            autoAlpha: 0,
-            duration: 0.1
-        }, `<+=0.3`)
-        .fromTo(projectsWrapperElement, {
-            autoAlpha: 0,
-            y: 48
-        }, {
-            autoAlpha: 1,
-            duration: 0.2,
-            y: 0
-        }, "<")
-        .to(homepageHeroElement, {
-            autoAlpha: 0,
-            duration: 0.2,
-        }, "<")
-        .to({}, {
-            duration: 0.2
-        })
-        .to(stickyWarpperElement, {
-            y: -160,
-            width: "80%",
-            borderRadius: "32px",
-            duration: 0.4
-        })
-        .to(projectsWrapperElement, {
-            autoAlpha: 0,
-            duration: 0.1
-        }, "<")
-        .to(headerWrapperElement, {
-            autoAlpha: 1,
-            duration: 0.1
-        }, `<+=0.3`)
-        
     function updateAndAnimateProjectTags(tags) {
         let tagsWrapperElement = container.querySelector(`.projects-section`).querySelector(`._tags-wrapper`)
         tagsWrapperElement.innerHTML = ``;
@@ -481,14 +487,31 @@ animationTimeline.fromTo(stickyWarpperElement, {
         })
     }
 
+    let pointerEnterEvent = new PointerEvent('pointerenter', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+    });
+
     Array.from(projectItemElements).forEach(projectItem => {
 
-        //let matchMedia = gsap.matchMedia();
-        //
-        //matchMedia.add(`(max-width: ${mobileBreakpoint}px)`, () => {
-        //
-        //});
-
+        matchMedia.add(`(max-width: ${mobileBreakpoint}px)`, () => {
+            gsap.to(projectItem, {
+                scrollTrigger: {
+                    trigger: projectItem,
+                    start: "center center",
+                    end: "center center",
+                    scrub: true,
+                    //markers: true,
+                    onEnter: () => {
+                        projectItem.dispatchEvent(pointerEnterEvent);
+                    },
+                    onEnterBack: () => {
+                        projectItem.dispatchEvent(pointerEnterEvent);
+                    }
+                }
+            });
+        });
 
         projectItem.addEventListener(`pointerenter`, () => {
 
@@ -501,10 +524,21 @@ animationTimeline.fromTo(stickyWarpperElement, {
             activateProjectItem(projectItem)
 
             previousProject = projectItem
-
         })
 
+        window.addEventListener('switchedToDesktop', () => {
+            deactivateProjectItem(projectItem);
+        });
+
+        window.addEventListener('switchedToMobile', () => {
+            deactivateProjectItem(projectItem)
+        });
+
     })
+
+    window.addEventListener('switchedToDesktop', () => {
+        activateProjectItem(previousProject);
+    });
 
     activateProjectItem(projectItemElements[0])
     previousProject = projectItemElements[0]
@@ -513,95 +547,104 @@ animationTimeline.fromTo(stickyWarpperElement, {
 
 function becauseWeAnimation() {
 
-    let whyWorkWithUsElement = document.querySelector(`.why-work-with-us`)
-    if (!whyWorkWithUsElement) return;
+    let mm = gsap.matchMedia();
 
-    let animationWrapper = whyWorkWithUsElement.querySelector(`._animation-wrapper`)
-    let headingElement = animationWrapper.querySelector(`._we`)
+    mm.add(`(min-width: ${mobileBreakpoint}px)`, () => {
 
-    let animationTimeline = gsap.timeline({
-        scrollTrigger: {
-            trigger: animationWrapper,
-            start: `0% 40%`,
-            end: `90% 40%`,
-            scrub: true,
-            //ers: true,
-            pin: headingElement,
-            pinSpacing: false
-        }
-    })
+        let whyWorkWithUsElement = document.querySelector(`.why-work-with-us`)
+        if (!whyWorkWithUsElement) return;
 
-    animationTimeline.to({}, {
-            duration: 0.9
-        })
-        .to(headingElement, {
-            opacity: 0,
-            duration: 0.1
-        }, `<+=0.75"`)
+        let animationWrapper = whyWorkWithUsElement.querySelector(`._animation-wrapper`)
+        let headingElement = animationWrapper.querySelector(`._we`)
 
-    let reasonElements = animationWrapper.querySelectorAll(`._reason`)
-
-    Array.from(reasonElements).forEach(reasonElement => {
-        let content = reasonElement.querySelector(`._content`)
-        let number = content.querySelector(`._number`)
-        let text = content.querySelector(`._text`)
-
-        gsap.fromTo(number, {
-            autoAlpha: 0,
-            y: -24,
-        }, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.6,
-            ease: `power3.inOut`,
+        let animationTimeline = gsap.timeline({
             scrollTrigger: {
-                trigger: reasonElement,
-                start: `0% 55%`,
-                end: `100% 55%`,
-                //markers: true,
+                trigger: animationWrapper,
+                start: `0% 40%`,
+                end: `90% 40%`,
+                scrub: true,
+                //ers: true,
+                pin: headingElement,
+                pinSpacing: false
             }
         })
 
-        let textSplit = SplitText.create(text, {
-            type: `words`,
-            mask: `words`,
-            smartWrap: true
-        });
+        animationTimeline.to({}, {
+                duration: 0.9
+            })
+            .to(headingElement, {
+                opacity: 0,
+                duration: 0.1
+            }, `<+=0.75"`)
 
-        gsap.fromTo(textSplit.words, {
-            autoAlpha: 0,
-            y: -24,
-        }, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.4,
-            stagger: 0.02,
-            ease: `power3.inOut`,
-            scrollTrigger: {
-                trigger: reasonElement,
-                start: `0% 55%`,
-                end: `100% 55%`,
-                //markers: true,
-            }
+        let reasonElements = animationWrapper.querySelectorAll(`._reason`)
+
+        Array.from(reasonElements).forEach(reasonElement => {
+            let content = reasonElement.querySelector(`._content`)
+            let number = content.querySelector(`._number`)
+            let text = content.querySelector(`._text`)
+
+            gsap.fromTo(number, {
+                autoAlpha: 0,
+                y: -24,
+            }, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.6,
+                ease: `power3.inOut`,
+                scrollTrigger: {
+                    trigger: reasonElement,
+                    start: `0% 55%`,
+                    end: `100% 55%`,
+                    //markers: true,
+                }
+            })
+
+            let textSplit = SplitText.create(text, {
+                type: `words`,
+                mask: `words`,
+                smartWrap: true
+            });
+
+            gsap.fromTo(textSplit.words, {
+                autoAlpha: 0,
+                y: -24,
+            }, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.4,
+                stagger: 0.02,
+                ease: `power3.inOut`,
+                scrollTrigger: {
+                    trigger: reasonElement,
+                    start: `0% 55%`,
+                    end: `100% 55%`,
+                    //markers: true,
+                }
+            })
+
+            gsap.to(text, {
+                opacity: 0.5,
+                duration: 0.4,
+                ease: `power3.inOut`,
+                scrollTrigger: {
+                    trigger: reasonElement,
+                    start: `0% 30%`,
+                    end: `100% 60%`,
+                    //markers: true,
+                    toggleActions: "play none reverse none",
+                }
+
+            })
         })
 
-        gsap.to(text, {
-            opacity: 0.5,
-            duration: 0.4,
-            ease: `power3.inOut`,
-            scrollTrigger: {
-                trigger: reasonElement,
-                start: `0% 30%`,
-                end: `100% 60%`,
-                //markers: true,
-                toggleActions: "play none reverse none",
-            }
-
-        })
-    })
+    });
 }
 
 function testimonialsSection(container = document) {
+
+    let mm = gsap.matchMedia();
+
     let testimonialsSection = container.querySelector(`.testimonials`)
 
     if (!testimonialsSection) {
@@ -662,17 +705,17 @@ function testimonialsSection(container = document) {
                 y: -24,
                 autoAlpha: 0
             }, `<+=0.2`)
-            .to(ctaButton, {
-                duration: 0.3,
-                y: -24,
-                autoAlpha: 0
-            }, `<`)
             .to(companyElement, {
                 duration: 0.3,
                 y: -24,
                 autoAlpha: 0
             }, `<+=0.1`)
             .to(positionElement, {
+                duration: 0.3,
+                y: -24,
+                autoAlpha: 0
+            }, `<+=0.1`)
+            .to(ctaButton, {
                 duration: 0.3,
                 y: -24,
                 autoAlpha: 0
@@ -703,17 +746,17 @@ function testimonialsSection(container = document) {
                 y: 0,
                 autoAlpha: 1
             }, `<+=0.2`)
-            .to(ctaButton, {
-                duration: 0.3,
-                y: 0,
-                autoAlpha: 1
-            }, `<`)
             .to(companyElement, {
                 duration: 0.3,
                 y: 0,
                 autoAlpha: 1
             }, `<+=0.1`)
             .to(positionElement, {
+                duration: 0.3,
+                y: 0,
+                autoAlpha: 1
+            }, `<+=0.1`)
+            .to(ctaButton, {
                 duration: 0.3,
                 y: 0,
                 autoAlpha: 1
@@ -732,67 +775,72 @@ function testimonialsSection(container = document) {
 
     let headerWrapperElement = container.querySelector(`.header-wrapper`)
 
-    let snapTimeline = gsap.timeline({
-        scrollTrigger: {
-            trigger: testimonialsSection,
-            start: "0% 15%",
-            end: "100% 85%",
-            scrub: true,
-            //markers: true,
-            onUpdate: self => {
 
-                let topEnterAlignInProgress = false;
-                let bottomEnterAlignInProgress = false;
+    mm.add(`(min-width: ${mobileBreakpoint}px)`, () => {
 
-                // top enter align
-                if (self.progress > 0 && self.progress < 0.3 && !topEnterAlignInProgress && scrollDirection == 1) {
-                    topEnterAlignInProgress = true;
+        let snapTimeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: testimonialsSection,
+                start: "0% 15%",
+                end: "100% 85%",
+                scrub: true,
+                //markers: true,
+                onUpdate: self => {
 
-                    const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset;
+                    let topEnterAlignInProgress = false;
+                    let bottomEnterAlignInProgress = false;
 
-                    isScrollProgrammatic = true;
+                    // top enter align
+                    if (self.progress > 0 && self.progress < 0.3 && !topEnterAlignInProgress && scrollDirection == 1) {
+                        topEnterAlignInProgress = true;
 
-                    lenis.scrollTo(scollToPos, {
-                        onComplete: () => {
-                            isScrollProgrammatic = false;
-                            topEnterAlignInProgress = false;
-                        }
-                    })
-                }
+                        const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset;
 
-                //bottom enter align
-                if (self.progress < 1 && self.progress > 0.7 && !bottomEnterAlignInProgress && scrollDirection == -1) {
-                    bottomEnterAlignInProgress = true;
+                        isScrollProgrammatic = true;
 
-                    const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset;
+                        lenis.scrollTo(scollToPos, {
+                            onComplete: () => {
+                                isScrollProgrammatic = false;
+                                topEnterAlignInProgress = false;
+                            }
+                        })
+                    }
 
-                    isScrollProgrammatic = true;
+                    //bottom enter align
+                    if (self.progress < 1 && self.progress > 0.7 && !bottomEnterAlignInProgress && scrollDirection == -1) {
+                        bottomEnterAlignInProgress = true;
 
-                    lenis.scrollTo(scollToPos, {
-                        onComplete: () => {
-                            isScrollProgrammatic = false;
-                            bottomEnterAlignInProgress = false;
-                        }
-                    })
+                        const scollToPos = testimonialsSection.getBoundingClientRect().top + window.pageYOffset;
+
+                        isScrollProgrammatic = true;
+
+                        lenis.scrollTo(scollToPos, {
+                            onComplete: () => {
+                                isScrollProgrammatic = false;
+                                bottomEnterAlignInProgress = false;
+                            }
+                        })
+                    }
                 }
             }
-        }
-    });
+        });
 
-    snapTimeline.to({}, {
-            duration: 0.1
-        })
-        .to(headerWrapperElement, {
-            autoAlpha: 0,
-            duration: 0.1
-        })
-        .to({}, {
-            duration: 0.7
-        })
-        .to(headerWrapperElement, {
-            autoAlpha: 1,
-            duration: 0.1
-        })
+        snapTimeline.to({}, {
+                duration: 0.1
+            })
+            .to(headerWrapperElement, {
+                autoAlpha: 0,
+                duration: 0.1
+            })
+            .to({}, {
+                duration: 0.7
+            })
+            .to(headerWrapperElement, {
+                autoAlpha: 1,
+                duration: 0.1
+            })
+
+    });
 }
 
 function initBlobs(container = document) {
@@ -830,7 +878,10 @@ function caseStudyProgressBar(container = document) {
 
 function caseStudyAnimations(container = document) {
 
-    
+    let mm = gsap.matchMedia();
+
+    mm.add(`(min-width: ${mobileBreakpoint}px)`, () => {
+
         let txtMainElements = container.querySelectorAll(".cs-txt-main-left, .cs-txt-main-right");
 
         if (txtMainElements) {
@@ -1087,10 +1138,11 @@ function caseStudyAnimations(container = document) {
                         scrollTrigger: {
                             trigger: visualElement,
                             start: '20% 80%',
-                            //markers: true
                         }
                     })
                 })
+
+
 
                 if (!descriptionParagraphs) return;
 
@@ -1114,7 +1166,7 @@ function caseStudyAnimations(container = document) {
             })
         }
 
-    
+    })
 }
 
 function caseStudySectionCompare(container = document) {

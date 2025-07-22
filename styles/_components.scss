@@ -4,17 +4,33 @@
     gap: $sp32;
     width: fit-content;
 
+    @include mobile() {
+        border: 1px solid $black;
+        width: 100%;
+        padding: $sp16;
+        border-radius: 0.5rem;
+        justify-content: space-between;
+    }
+
     p {
         transition: 0.3s;
         @include medium-24;
+
+        @include mobile() {
+            @include medium-20;
+        }
     }
 
     ._icon {
-        width: 37px;
+        width: 2.3125rem;
         height: 100%;
         display: flex;
         overflow: hidden;
         gap: $sp24;
+
+        @include mobile() {
+            width: 1.5rem;
+        }
 
         svg {
             transition: 0.5s;

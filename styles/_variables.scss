@@ -110,6 +110,14 @@
     line-height: 100%;
 }
 
+@mixin medium-30 {
+    font-family: 'mainfont', sans-serif;
+    font-size: 1.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+}
+
 @mixin medium-36 {
     font-family: 'mainfont', sans-serif;
     font-size: 2.25rem;
