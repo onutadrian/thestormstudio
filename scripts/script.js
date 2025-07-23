@@ -34,7 +34,6 @@ function sleep(ms) {
 let mobileBreakpoint = 1024; //px
 let isDesktop = window.innerWidth > mobileBreakpoint;
 
-
 // switchedToDesktop / switchedToMobile custom events (based on screen width) and isDesktop updater 
 window.addEventListener('resize', () => {
     let isResizeDesktop = window.innerWidth > mobileBreakpoint;
@@ -59,7 +58,6 @@ function textAnimations() {
     Array.from(wordRevealElements).forEach(element => {
         let properties = element.getAttribute(`text-animation`).split(`, `);
         //properties = animation type, split type, instant/on-scroll
-
 
         let split = SplitText.create(element, {
             type: properties[1],
@@ -437,7 +435,7 @@ function projectsSection(container = document) {
         updateAndAnimateProjectTags(projectTags)
 
         gsap.to(videoElement, {
-            autoAlpha: 0.6,
+            autoAlpha: 0.2,
             duration: 0.2
         })
 
@@ -445,7 +443,8 @@ function projectsSection(container = document) {
 
         gsap.to(titleElement, {
             autoAlpha: 1,
-            duration: 0.2
+            duration: 0.2,
+            color: `#ffffff`
         })
 
         gsap.to(titleIconElement, {
@@ -477,7 +476,8 @@ function projectsSection(container = document) {
         videoElement.pause();
 
         gsap.to(titleElement, {
-            autoAlpha: 0.2,
+            autoAlpha: 1,
+            color: `#8B8B8B`,
             duration: 0.2
         })
 
@@ -1415,6 +1415,8 @@ function capabilitiesOverlay(container = document) {
     })
 }
 
+let mobileMenuOpen = false;
+
 function headerScrollAnimation(container = document) {
 
     let headerWrapperElement = container.querySelector(`.header-wrapper`)
@@ -1431,7 +1433,7 @@ function headerScrollAnimation(container = document) {
         if (scrollDirection != lastDirection) {
             lastDirection = scrollDirection;
 
-            if (scrollDirection == 1) {
+            if (scrollDirection == 1 && mobileMenuOpen == false) {
                 headerAnimation.reverse()
             } else if (scrollDirection == -1) {
                 headerAnimation.play()
@@ -1446,6 +1448,51 @@ function headerScrollAnimation(container = document) {
     headerScrollAnimation.show = function () {
         headerAnimation.reverse()
     }
+}
+
+function toggleMobileMenu(container = document) {
+    let mobileMenuToggleButton = container.querySelector(`.header-wrapper ._mobile-menu-toggle`)
+    let mobileMenuElement = container.querySelector(`.mobile-menu`)
+
+    function openMenu() {
+        lenis.stop()
+        mobileMenuOpen = true;
+        mobileMenuToggleButton.innerHTML = `CLOSE`
+
+        gsap.to(mobileMenuElement, {
+            x: `0%`,
+            duration: 0.3,
+            ease: `power3.out`
+        })
+    }
+
+    function closeMenu() {
+        lenis.start()
+        mobileMenuOpen = false;
+        mobileMenuToggleButton.innerHTML = `MENU`
+
+        gsap.to(mobileMenuElement, {
+            x: `100%`,
+            duration: 0.3,
+            ease: `power3.out`
+        })
+    }
+
+    mobileMenuToggleButton.addEventListener(`click`, () => {
+
+        if (mobileMenuOpen == false) {
+            openMenu()
+
+        } else if (mobileMenuOpen == true) {
+            closeMenu()
+        }
+    })
+
+    window.addEventListener(`switchedToDesktop`, () => {
+        console.log()
+        closeMenu()
+    })
+
 }
 
 async function indexToProjectTransitionEnter(container = document) {
@@ -1560,6 +1607,7 @@ barba.init({
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
                 headerScrollAnimation(data.next.container)
+                toggleMobileMenu(data.next.container)
                 textAnimations(data.next.container)
                 initBlobs(data.next.container)
                 pageReveal(data.next.container)
@@ -1589,6 +1637,7 @@ barba.init({
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
                 headerScrollAnimation(data.next.container)
+                toggleMobileMenu(data.next.container)
                 indexToProjectTransitionEnter();
                 initBlobs(data.next.container);
 
@@ -1610,6 +1659,7 @@ barba.init({
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
                 headerScrollAnimation(data.next.container)
+                toggleMobileMenu(data.next.container)
                 initBlobs(data.next.container);
                 capabilitiesOverlay(data.next.container)
 

@@ -165,6 +165,8 @@ body {
 
             nav {
                 ul {
+                    padding-inline-start: 0;
+                    padding: 0;
                     display: flex;
                     gap: $sp24;
 
@@ -178,7 +180,7 @@ body {
 
         ._right {
 
-            ._mobile-hamburger {
+            ._mobile-menu-toggle {
                 display: none;
 
                 @include mobile() {
@@ -208,6 +210,87 @@ body {
         }
     }
 
+}
+
+.mobile-menu {
+    display: none;
+
+    @include mobile() {
+        transform: translateX(100%);
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        top: 0;
+        z-index: 499;
+        width: 100%;
+        height: 100vh;
+        height: 100svh;
+        background: #ffffff;
+    }
+
+    ._nav {
+        @include mobile() {
+            padding-top: calc($sp72 + $sp16);
+            margin-bottom: $sp64;
+        }
+
+        ul {
+
+            @include mobile() {
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                gap: $sp16;
+            }
+
+            li {
+                @include mobile() {
+                    @include book-30;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    ._book-a-call {
+        @include mobile() {
+            margin: 0 auto;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 500px;
+            background: $black;
+            margin-bottom: $sp64;
+        }
+
+        ._content {
+            @include mobile() {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: $sp16;
+                color: $yellow;
+                @include medium-24;
+                line-height: 100%;
+            }
+        }
+    }
+
+    ._email {
+        @include mobile() {
+            text-align: center;
+            @include book-20;
+            color: $gray40
+        }
+    }
+
+    ._bottom-logo {
+        position: absolute;
+        bottom: 0;
+    }
 }
 
 .homepage-hero {
@@ -248,6 +331,7 @@ body {
     position: relative;
 
     @include mobile() {
+        height: 140vh;
         height: 140lvh;
         margin-bottom: $sp72;
     }
@@ -264,6 +348,7 @@ body {
             overflow: visible;
             position: relative;
             width: 100%;
+            height: 140vh;
             height: 140lvh;
             border-radius: 0;
             background: red;
@@ -280,6 +365,7 @@ body {
 
             ._background-videos {
                 width: 100%;
+                height: 100vh;
                 height: 100lvh;
                 position: relative;
                 background: #000000;
@@ -311,26 +397,81 @@ body {
                 align-items: center;
             }
 
-            ._project-item {
-                margin: $sp48 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                cursor: pointer;
-
-                ._title {
-                    color: #ffffff;
-                    @include medium-64;
-                    opacity: 0.2;
-
-                    @include mobile() {
-                        @include medium-30;
-                    }
+            .width-limiter-wide {
+                @include desktop() {
+                    height: 100%;
+                    display: flex;
                 }
 
-                ._icon {
-                    overflow: hidden;
-                    opacity: 0;
+                ._flex-wrapper {
+                    @include desktop() {
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        padding-bottom: $sp120;
+                    }
+
+                    ._project-item {
+                        margin: $sp24 0;
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+                        gap: $sp24;
+
+                        @include mobile() {
+                            margin: $sp72 0;
+                            gap: $sp16;
+                        }
+
+                        ._title {
+                            color: #8B8B8B;
+                            @include medium-64;
+
+                            @include mobile() {
+                                @include medium-30;
+                            }
+                        }
+
+                        ._icon {
+                            overflow: hidden;
+                            opacity: 0;
+
+                            @include mobile() {
+                                width: $sp24;
+                            }
+                        }
+                    }
+
+                    ._project-item-soon {
+                        margin: $sp24 0;
+                        display: flex;
+                        align-items: start;
+                        gap: $sp16;
+
+                        @include mobile() {
+                            margin: $sp72 0;
+                            gap: $sp16;
+                            align-items: center;
+                        }
+
+                        ._title {
+                            color: #8B8B8B;
+                            @include medium-64;
+
+                            @include mobile() {
+                                @include medium-30;
+                            }
+                        }
+
+                        ._coming-soon {
+                            color: $yellow;
+                            @include medium-16;
+                            background: $black;
+                            padding: 0.375rem;
+                            border-radius: $sp4;
+                        }
+                    }
                 }
             }
 
@@ -813,7 +954,7 @@ body {
 
                         @include mobile() {
                             @include book-20;
-                            
+
                         }
                     }
 
@@ -914,16 +1055,59 @@ footer {
         padding: $sp240 0 $sp160 0;
         text-align: center;
 
+        @include mobile() {
+            padding: 0;
+            margin-top: $sp160;
+        }
+
         ._pre-heading {
             @include book-30;
             color: $gray40;
             margin-bottom: $sp24;
             line-height: 100%;
+
+            @include mobile() {
+                @include book-20;
+            }
         }
 
         ._heading {
             @include medium-48;
             line-height: 100%;
+
+            @include mobile() {
+                @include medium-30;
+                margin-bottom: $sp80;
+            }
+        }
+
+        ._book-a-call {
+            display: none;
+
+            @include mobile() {
+                margin: 0 auto;
+                width: 180px;
+                height: 180px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 500px;
+                background: $black;
+                margin-bottom: $sp80;
+            }
+
+            ._content {
+                @include mobile() {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    gap: $sp16;
+                    color: $yellow;
+                    @include medium-36;
+                    line-height: 100%;
+                }
+            }
         }
     }
 
@@ -935,24 +1119,53 @@ footer {
         margin-top: $sp120;
         padding: $sp48;
 
+        @include mobile() {
+            flex-direction: column;
+            align-items: center;
+            margin-top: 0;
+            padding: 0;
+        }
+
         ._left {
             display: flex;
             flex-direction: column;
             gap: $sp24;
 
+            @include mobile() {
+                align-items: center;
+                gap: $sp16;
+            }
+
             ._email {
                 @include medium-20;
+
+                @include mobile() {
+                    @include book-20;
+                }
             }
 
             ._location {
                 @include medium-20;
                 color: $gray40;
+
+                @include mobile() {
+                    margin-bottom: $sp80;
+                    @include book-20;
+                }
             }
         }
 
         ._right {
+            @include mobile() {
+                padding-bottom: $sp120;
+            }
+
             ._legal {
                 @include medium-20;
+
+                @include mobile() {
+                    @include book-20;
+                }
             }
         }
     }
