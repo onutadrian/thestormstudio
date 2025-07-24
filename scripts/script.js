@@ -34,6 +34,9 @@ function sleep(ms) {
 let mobileBreakpoint = 1024; //px
 let isDesktop = window.innerWidth > mobileBreakpoint;
 
+// should the page scroll to top after page change
+let scrollToTop = false;
+
 // switchedToDesktop / switchedToMobile custom events (based on screen width) and isDesktop updater 
 window.addEventListener('resize', () => {
     let isResizeDesktop = window.innerWidth > mobileBreakpoint;
@@ -1440,19 +1443,13 @@ function headerScrollAnimation(container = document) {
             }
         }
     })
-
-    headerScrollAnimation.hide = function () {
-        headerAnimation.play()
-    }
-
-    headerScrollAnimation.show = function () {
-        headerAnimation.reverse()
-    }
 }
 
 function toggleMobileMenu(container = document) {
     let mobileMenuToggleButton = container.querySelector(`.header-wrapper ._mobile-menu-toggle`)
     let mobileMenuElement = container.querySelector(`.mobile-menu`)
+
+    let menuItems = container.querySelectorAll(`.mobile-menu li`)
 
     function openMenu() {
         lenis.stop()
@@ -1493,6 +1490,11 @@ function toggleMobileMenu(container = document) {
         closeMenu()
     })
 
+    Array.from(menuItems).forEach(menuItem => {
+        menuItem.addEventListener(`click`, () => {
+            lenis.start()
+        })
+    })
 }
 
 async function indexToProjectTransitionEnter(container = document) {
@@ -1503,10 +1505,21 @@ async function indexToProjectTransitionEnter(container = document) {
 
     if (!transitionWrapper || !transitionWrapper.hasChildNodes()) {
 
+        lenis.scrollTo(100, {
+            immediate: true,
+            onComplete: () => {
+                lenis.scrollTo(0, {
+
+                })
+            }
+        })
+
         gsap.to(nextProjectWrapperElement, {
             autoAlpha: 1,
             duration: 0
         })
+
+
 
         return;
     }
@@ -1636,9 +1649,9 @@ barba.init({
             afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
-                headerScrollAnimation(data.next.container)
+                headerScrollAnimation(data.next.container);
                 toggleMobileMenu(data.next.container)
-                indexToProjectTransitionEnter();
+                indexToProjectTransitionEnter(data.next.container);
                 initBlobs(data.next.container);
 
                 caseStudyAnimations(data.next.container);

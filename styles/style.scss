@@ -1191,6 +1191,9 @@ footer {
         position: relative;
         padding: $sp32 $sp64;
 
+        @include mobile() {
+            padding: $sp16;
+        }
 
         ._overlay-border {
             position: absolute;
@@ -1201,6 +1204,12 @@ footer {
             z-index: 1000;
             pointer-events: none;
             background: #ffffff;
+
+            @include mobile() {
+                width: calc(100% - $sp16 * 2);
+                height: calc(100vh - $sp16 * 2);
+                border: 1px solid $black;
+            }
         }
 
         ._content {
@@ -1214,6 +1223,11 @@ footer {
             display: flex;
             flex-direction: column;
 
+            @include mobile() {
+                padding: $sp32 $sp16;
+                height: calc(100vh - ($sp16 + $sp4) * 2);
+            }
+
             ._close-button {
                 margin-bottom: $sp64;
             }
@@ -1221,11 +1235,22 @@ footer {
             ._title {
                 margin-bottom: $sp64;
                 @include medium-36;
+
+                @include mobile() {
+                    @include medium-30;
+                    margin-bottom: $sp40;
+                }
             }
 
             ._paragraphs {
                 margin-bottom: $sp64;
                 @include book-36;
+
+                @include mobile() {
+                    @include book-20;
+                    line-height: 130%;
+                    margin-bottom: $sp40;
+                }
             }
 
             ._button {
@@ -1236,6 +1261,15 @@ footer {
                 cursor: pointer;
                 border: 2px solid $black;
                 text-align: center;
+
+                @include mobile() {
+                    padding: 1.3125rem 0;
+                    width: 100%;
+                    text-align: center;
+                    @include medium-20;
+                    border: 1px solid $black;
+                    border-radius: $sp8;
+                }
 
                 &:hover {
                     background: $black;
@@ -1257,11 +1291,21 @@ footer {
     grid-column: 1 / 13;
     margin-top: $sp240;
 
+    @include mobile() {
+        margin-top: $sp120;
+    }
+
     ._heading {
         @include book-96;
         text-align: center;
         line-height: 108%;
         margin-bottom: $sp160;
+
+        @include mobile() {
+            @include book-36;
+            line-height: 110%;
+            margin-bottom: $sp72;
+        }
     }
 }
 
@@ -1277,11 +1321,22 @@ footer {
         max-width: 62.5rem;
         margin-top: $sp160;
         margin-bottom: $sp240;
+
+        @include mobile() {
+            margin-top: $sp72;
+            margin-bottom: $sp120;
+            @include book-36;
+            line-height: 110%;
+        }
     }
 
     ._nav {
         grid-column: 1 / 4;
         grid-row: 2 / 6;
+
+        @include mobile() {
+            display: none
+        }
 
         ._sticky-wrapper {
             position: sticky;
@@ -1304,19 +1359,44 @@ footer {
         width: 100%;
         margin-bottom: $sp160;
 
+        &:last-child {
+            @include mobile() {
+                margin-bottom: 0;
+            }
+        }
+
+        @include mobile() {
+            grid-column: 1 / 13;
+        }
+
         ._title {
             @include medium-36;
             margin-bottom: $sp64;
+
+            @include mobile() {
+                @include medium-30;
+                margin-bottom: $sp40;
+            }
         }
 
         ._image {
             margin-bottom: $sp64;
+
+            @include mobile() {
+                margin-bottom: $sp40;
+            }
         }
 
         ._text {
             @include book-36;
             margin-bottom: $sp64;
             line-height: 130%;
+
+            @include mobile() {
+                @include book-20;
+                line-height: 130%;
+                margin-bottom: $sp40;
+            }
         }
 
         ._button {
@@ -1327,6 +1407,14 @@ footer {
             transition: 0.1s;
             cursor: pointer;
             position: relative;
+
+            @include mobile() {
+                padding: 1.3125rem 0;
+                width: 100%;
+                text-align: center;
+                @include medium-20;
+                margin-bottom: $sp40;
+            }
 
             &:hover {
                 background: #ffffff;
@@ -1346,6 +1434,11 @@ footer {
                 height: 100%;
                 border: 2px solid $black;
                 background: #ffffff;
+
+                @include mobile() {
+                    border: 1px solid $black;
+                    border-radius: $sp8;
+                }
             }
         }
 
@@ -1354,12 +1447,20 @@ footer {
             width: 100%;
             height: 0.0625rem;
             background: $gray50;
+
+            @include mobile() {
+                margin-bottom: $sp40;
+            }
         }
 
         ._services {
             ._item {
                 @include medium-24;
                 margin-bottom: $sp16;
+
+                @include mobile() {
+                    @include medium-20;
+                }
             }
         }
 
@@ -1367,5 +1468,4 @@ footer {
             display: none;
         }
     }
-
 }

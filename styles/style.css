@@ -2640,6 +2640,11 @@ footer ._logo {
   position: relative;
   padding: 2rem 4rem;
 }
+@media screen and (max-width: 1024px) {
+  .capabilities-overlay .width-limiter {
+    padding: 1rem;
+  }
+}
 .capabilities-overlay .width-limiter ._overlay-border {
   position: absolute;
   width: calc(100% - 8rem);
@@ -2649,6 +2654,13 @@ footer ._logo {
   z-index: 1000;
   pointer-events: none;
   background: #ffffff;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities-overlay .width-limiter ._overlay-border {
+    width: calc(100% - 2rem);
+    height: calc(100vh - 2rem);
+    border: 1px solid #212020;
+  }
 }
 .capabilities-overlay .width-limiter ._content {
   position: relative;
@@ -2661,6 +2673,12 @@ footer ._logo {
   display: flex;
   flex-direction: column;
 }
+@media screen and (max-width: 1024px) {
+  .capabilities-overlay .width-limiter ._content {
+    padding: 2rem 1rem;
+    height: calc(100vh - 2.5rem);
+  }
+}
 .capabilities-overlay .width-limiter ._content ._close-button {
   margin-bottom: 4rem;
 }
@@ -2672,6 +2690,16 @@ footer ._logo {
   font-weight: 500;
   line-height: 120%;
 }
+@media screen and (max-width: 1024px) {
+  .capabilities-overlay .width-limiter ._content ._title {
+    font-family: "mainfont", sans-serif;
+    font-size: 1.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    margin-bottom: 2.5rem;
+  }
+}
 .capabilities-overlay .width-limiter ._content ._paragraphs {
   margin-bottom: 4rem;
   font-family: "mainfont", sans-serif;
@@ -2679,6 +2707,17 @@ footer ._logo {
   font-style: normal;
   font-weight: 400;
   line-height: 120%;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities-overlay .width-limiter ._content ._paragraphs {
+    font-family: "mainfont", sans-serif;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    line-height: 130%;
+    margin-bottom: 2.5rem;
+  }
 }
 .capabilities-overlay .width-limiter ._content ._button {
   font-family: "mainfont", sans-serif;
@@ -2692,6 +2731,19 @@ footer ._logo {
   cursor: pointer;
   border: 2px solid #212020;
   text-align: center;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities-overlay .width-limiter ._content ._button {
+    padding: 1.3125rem 0;
+    width: 100%;
+    text-align: center;
+    font-family: "mainfont", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: normal;
+    border: 1px solid #212020;
+    border-radius: 0.5rem;
+  }
 }
 .capabilities-overlay .width-limiter ._content ._button:hover {
   background: #212020;
@@ -2708,6 +2760,11 @@ footer ._logo {
   grid-column: 1/13;
   margin-top: 15rem;
 }
+@media screen and (max-width: 1024px) {
+  .capabilities-hero {
+    margin-top: 7.5rem;
+  }
+}
 .capabilities-hero ._heading {
   font-family: "mainfont", sans-serif;
   font-size: 6rem;
@@ -2717,6 +2774,17 @@ footer ._logo {
   text-align: center;
   line-height: 108%;
   margin-bottom: 10rem;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities-hero ._heading {
+    font-family: "mainfont", sans-serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    line-height: 110%;
+    margin-bottom: 4.5rem;
+  }
 }
 
 .capabilities {
@@ -2735,9 +2803,26 @@ footer ._logo {
   margin-top: 10rem;
   margin-bottom: 15rem;
 }
+@media screen and (max-width: 1024px) {
+  .capabilities ._heading {
+    margin-top: 4.5rem;
+    margin-bottom: 7.5rem;
+    font-family: "mainfont", sans-serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    line-height: 110%;
+  }
+}
 .capabilities ._nav {
   grid-column: 1/4;
   grid-row: 2/6;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities ._nav {
+    display: none;
+  }
 }
 .capabilities ._nav ._sticky-wrapper {
   position: sticky;
@@ -2761,6 +2846,16 @@ footer ._logo {
   width: 100%;
   margin-bottom: 10rem;
 }
+@media screen and (max-width: 1024px) {
+  .capabilities section:last-child {
+    margin-bottom: 0;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .capabilities section {
+    grid-column: 1/13;
+  }
+}
 .capabilities section ._title {
   font-family: "mainfont", sans-serif;
   font-size: 2.25rem;
@@ -2769,8 +2864,23 @@ footer ._logo {
   line-height: 120%;
   margin-bottom: 4rem;
 }
+@media screen and (max-width: 1024px) {
+  .capabilities section ._title {
+    font-family: "mainfont", sans-serif;
+    font-size: 1.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    margin-bottom: 2.5rem;
+  }
+}
 .capabilities section ._image {
   margin-bottom: 4rem;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities section ._image {
+    margin-bottom: 2.5rem;
+  }
 }
 .capabilities section ._text {
   font-family: "mainfont", sans-serif;
@@ -2780,6 +2890,17 @@ footer ._logo {
   line-height: 120%;
   margin-bottom: 4rem;
   line-height: 130%;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities section ._text {
+    font-family: "mainfont", sans-serif;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    line-height: 130%;
+    margin-bottom: 2.5rem;
+  }
 }
 .capabilities section ._button {
   font-family: "mainfont", sans-serif;
@@ -2794,6 +2915,18 @@ footer ._logo {
   transition: 0.1s;
   cursor: pointer;
   position: relative;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities section ._button {
+    padding: 1.3125rem 0;
+    width: 100%;
+    text-align: center;
+    font-family: "mainfont", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 2.5rem;
+  }
 }
 .capabilities section ._button:hover {
   background: #ffffff;
@@ -2812,11 +2945,22 @@ footer ._logo {
   border: 2px solid #212020;
   background: #ffffff;
 }
+@media screen and (max-width: 1024px) {
+  .capabilities section ._button ._overlay-border {
+    border: 1px solid #212020;
+    border-radius: 0.5rem;
+  }
+}
 .capabilities section ._divider {
   margin-bottom: 4rem;
   width: 100%;
   height: 0.0625rem;
   background: #CECECE;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities section ._divider {
+    margin-bottom: 2.5rem;
+  }
 }
 .capabilities section ._services ._item {
   font-family: "mainfont", sans-serif;
@@ -2825,6 +2969,14 @@ footer ._logo {
   font-weight: 500;
   line-height: 100%;
   margin-bottom: 1rem;
+}
+@media screen and (max-width: 1024px) {
+  .capabilities section ._services ._item {
+    font-family: "mainfont", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: normal;
+  }
 }
 .capabilities section ._overlay-content {
   display: none;
