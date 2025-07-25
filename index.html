@@ -5,9 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-    <title>Document</title>
+    <link rel="icon" href="media/favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="media/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="media/favicon.png">
+
+    <meta property="og:title" content="STORM Studio">
+    <meta property="og:description"
+        content="We’re a global design studio delivering enterprise-grade digital products.">
+    <meta property="og:image" content="media/og-image.webp">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="STORM Studio">
+    <meta name="twitter:description"
+        content="We’re a global design studio delivering enterprise-grade digital products.">
+    <meta name="twitter:image" content="media/og-image.webp">
+
+    <title>STORM Studio</title>
     <link rel="stylesheet" href="styles/reset.css?v=1">
     <link rel="stylesheet" href="styles/style.css?v=1">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.4/dist/lenis.css">
+
+    <!-- Hotjar Tracking Code for thestorm -->
+    <script>
+        (function (h, o, t, j, a, r) {
+            h.hj = h.hj || function () {
+                (h.hj.q = h.hj.q || []).push(arguments)
+            };
+            h._hjSettings = {
+                hjid: 6475322,
+                hjsv: 6
+            };
+            a = o.getElementsByTagName('head')[0];
+            r = o.createElement('script');
+            r.async = 1;
+            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XF269LY2EZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-XF269LY2EZ');
+    </script>
 </head>
 
 <body data-barba="wrapper">
@@ -43,10 +91,8 @@
                     <div class="_center">
                         <nav>
                             <ul>
-                                <li><a href="">ABOUT</a></li>
-                                <li><a href="work/project.html">WORK</a></li>
-                                <li><a href="capabilities/index.html">CAPABILITIES</a></li>
-                                <li><a href="">PLAYGROUND</a></li>
+                                <li><a href="">HOME</a></li>
+                                <li><a href="capabilities/">CAPABILITIES</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -61,10 +107,8 @@
         <div class="mobile-menu">
             <div class="_nav">
                 <ul>
-                    <li><a href="">ABOUT</a></li>
-                    <li><a href="work/project.html">WORK</a></li>
-                    <li><a href="capabilities/index.html">CAPABILITIES</a></li>
-                    <li><a href="">PLAYGROUND</a></li>
+                    <li><a href="">HOME</a></li>
+                    <li><a href="capabilities/">CAPABILITIES</a></li>
                 </ul>
             </div>
             <a href="">
@@ -90,7 +134,7 @@
             </div>
         </div>
 
-        <section class="projects-section">
+        <section class="projects-section" id="work">
             <div class="_sticky-wrapper">
                 <div class="_sticky-wrapper-mobile">
                     <div class="_background-videos">
@@ -129,6 +173,11 @@
                             </a>
 
                             <div class="_project-item-soon">
+                                <div class="_title">Elifinty EliHub</div>
+                                <div class="_coming-soon">Coming Soon</div>
+                            </div>
+
+                            <div class="_project-item-soon">
                                 <div class="_title">Suvoda App</div>
                                 <div class="_coming-soon">Coming Soon</div>
                             </div>
@@ -159,7 +208,7 @@
                     <div class="_right-alined">
                         <div class="_subheading">Our work balances user needs, business context, and technical
                             realities. That’s how you move from planning to traction.</div>
-                        <a href="" class="cta-button">
+                        <a href="capabilities/" class="cta-button">
                             <p>Explore our services</p>
                             <div class="_icon">
                                 <svg width="37" height="23" viewBox="0 0 37 23" fill="none"
@@ -240,7 +289,7 @@
                     </div>
                 </div>
 
-                <a href="" class="cta-button">
+                <a href="capabilities/" class="cta-button">
                     <p>See what we do</p>
                     <div class="_icon">
                         <svg width="37" height="23" viewBox="0 0 37 23" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -331,8 +380,8 @@
                     <div class="_current"></div>
                 </div>
                 <div class="_background-images">
-                    <img id="testimonialImageBenefitSystems" src="media/testimonials/benefit-systems.webp" alt="">
-                    <img id="testimonialImageBenefitSystems2" src="media/test-image.png" alt="">
+                    <img id="testimonialImageBenefitSystems" src="media/work/benefit/laptop.webp" alt="">
+                    <img id="testimonialImageSanoPass" src="media/work/sanopass/sanopass11.webp" alt="">
                     <div class="_gradient"></div>
                 </div>
 
@@ -370,8 +419,8 @@
                 </div>
 
                 <div class="_testimonial-items">
-                    <div class="_item" image-id="testimonialImageBenefitSystems"
-                        case-study-link="work/benefit/index.html">
+
+                    <div class="_item" image-id="testimonialImageBenefitSystems" case-study-link="work/benefit">
                         <div class="_quote">“We found them to understand our business and our needs very quickly,
                             helping us identify answers to most challenging questions.”</div>
                         <div class="_name">Stefan Todorita</div>
@@ -379,14 +428,15 @@
                         <div class="_position">Strategy & Development Director</div>
                     </div>
 
-                    <div class="_item" image-id="testimonialImageBenefitSystems2" case-study-link="" href="">
-                        <div class="_quote">“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor
-                            incididunt ut labore et dolore magna aliqua.”</div>
-                        <div class="_name">Mihai Ion</div>
-                        <div class="_company">Denumire Companie</div>
-                        <div class="_position">Pozitie CEO Manager</div>
+                    <div class="_item" image-id="testimonialImageSanoPass" case-study-link="work/sanopass">
+                        <div class="_quote">"STORM has been essential for the success of SanoPass. Due to their
+                            creativity and remarkable product design abilities, they have helped us grow from 200k to 2M
+                            Euro."</div>
+                        <div class="_name">Andrei Vasile</div>
+                        <div class="_company">Medlife</div>
+                        <div class="_position">CEO SanoPass</div>
                     </div>
+
                 </div>
             </div>
         </div>

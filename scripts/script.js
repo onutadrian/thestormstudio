@@ -264,28 +264,6 @@ function pageReveal() {
             duration: 0.2
         }, "<")
 
-
-    let homeHero = document.querySelector(`.homepage-hero`)
-
-    if (homeHero) {
-        let homeHeroPreheading = homeHero.querySelector(`._pre-heading`)
-        let homeHeroHeading = homeHero.querySelector(`._heading`)
-
-        let headingSplit = SplitText.create(homeHeroHeading, {
-            type: `chars`,
-            mask: `chars`,
-            smartWrap: true
-        });
-
-        animationTimeline.from(headingSplit.chars, {
-            y: `-110%`,
-            autoAlpha: 0,
-            duration: 1.4,
-            stagger: 0.02,
-            ease: `power3.inOut`,
-        }, `<+=0.6`)
-    }
-
 }
 
 function projectsSection(container = document) {
@@ -881,51 +859,146 @@ function caseStudyProgressBar(container = document) {
 
 function caseStudyAnimations(container = document) {
 
-    let mm = gsap.matchMedia();
+    let txtMainElements = container.querySelectorAll(".cs-txt-main-left, .cs-txt-main-right");
 
-    mm.add(`(min-width: ${mobileBreakpoint}px)`, () => {
+    if (txtMainElements) {
 
-        let txtMainElements = container.querySelectorAll(".cs-txt-main-left, .cs-txt-main-right");
+        Array.from(txtMainElements).forEach(txtMainElement => {
+            let preHeadingParagraph = txtMainElement.querySelectorAll("._pre-heading p")[0]
+            let headingParagraph = txtMainElement.querySelectorAll("._heading p")[0]
 
-        if (txtMainElements) {
+            let split = SplitText.create(headingParagraph, {
+                type: "lines"
+            });
 
-            Array.from(txtMainElements).forEach(txtMainElement => {
-                let preHeadingParagraph = txtMainElement.querySelectorAll("._pre-heading p")[0]
-                let headingParagraph = txtMainElement.querySelectorAll("._heading p")[0]
+            gsap.from(preHeadingParagraph, {
+                x: -40,
+                opacity: 0,
+                duration: 0.3,
 
-                let split = SplitText.create(headingParagraph, {
+                scrollTrigger: {
+                    trigger: preHeadingParagraph,
+                    start: 'top 80%',
+                }
+            })
+
+            gsap.from(split.lines, {
+                y: 5,
+                opacity: 0,
+                duration: 0.3,
+                stagger: 0.1,
+                delay: 0.1
+            })
+        });
+    }
+
+    let figOneFullElements = container.querySelectorAll(".cs-fig-1-full-left, .cs-fig-1-full-right");
+
+    if (figOneFullElements) {
+
+        Array.from(figOneFullElements).forEach(figOneFullElement => {
+            let visualElement = figOneFullElement.querySelectorAll("img, video")[0]
+            let descriptionParagraphs = figOneFullElement.querySelectorAll("._description p")
+
+            gsap.from(visualElement, {
+                opacity: 0,
+                scale: 1.2,
+                duration: .8,
+                clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
+                transformOrigin: 'top center',
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    if (visualElement.tagName == `VIDEO`) {
+                        visualElement.play();
+                    }
+                },
+
+                scrollTrigger: {
+                    trigger: visualElement,
+                    start: '20% 80%',
+                }
+            })
+
+            if (!descriptionParagraphs) return;
+
+            Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                let split = SplitText.create(descriptionParagraph, {
                     type: "lines"
                 });
-
-                gsap.from(preHeadingParagraph, {
-                    x: -40,
-                    opacity: 0,
-                    duration: 0.3,
-
-                    scrollTrigger: {
-                        trigger: preHeadingParagraph,
-                        start: 'top 80%',
-                    }
-                })
 
                 gsap.from(split.lines, {
                     y: 5,
                     opacity: 0,
                     duration: 0.3,
                     stagger: 0.1,
-                    delay: 0.1
+
+                    scrollTrigger: {
+                        trigger: descriptionParagraph,
+                        start: 'top 80%',
+                    }
                 })
-            });
-        }
+            })
 
-        let figOneFullElements = container.querySelectorAll(".cs-fig-1-full-left, .cs-fig-1-full-right");
+        })
+    }
 
-        if (figOneFullElements) {
+    let figOneAsymElements = container.querySelectorAll(".cs-fig-1-asym-left, .cs-fig-1-asym-right");
 
-            Array.from(figOneFullElements).forEach(figOneFullElement => {
-                let visualElement = figOneFullElement.querySelectorAll("img, video")[0]
-                let descriptionParagraphs = figOneFullElement.querySelectorAll("._description p")
+    if (figOneAsymElements) {
 
+        Array.from(figOneAsymElements).forEach(figOneAsymElement => {
+            let visualElement = figOneAsymElement.querySelectorAll("img, video")[0]
+            let descriptionParagraphs = figOneAsymElement.querySelectorAll("._description p")
+
+            gsap.from(visualElement, {
+                opacity: 0,
+                scale: 1.2,
+                duration: .8,
+                clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
+                transformOrigin: 'top center',
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    if (visualElement.tagName == `VIDEO`) {
+                        visualElement.play();
+                    }
+                },
+
+                scrollTrigger: {
+                    trigger: visualElement,
+                    start: '20% 80%',
+                }
+            })
+
+            if (!descriptionParagraphs) return;
+
+            Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                let split = SplitText.create(descriptionParagraph, {
+                    type: "lines"
+                });
+
+                gsap.from(split.lines, {
+                    y: 5,
+                    opacity: 0,
+                    duration: 0.3,
+                    stagger: 0.1,
+
+                    scrollTrigger: {
+                        trigger: descriptionParagraph,
+                        start: 'top 80%',
+                    }
+                })
+            })
+        })
+    }
+
+    let figOneByOneElements = container.querySelectorAll(".cs-fig-1x1-left, .cs-fig-1x1-right");
+
+    if (figOneByOneElements) {
+        Array.from(figOneByOneElements).forEach(figOneByOneElement => {
+            let visualElements = figOneByOneElement.querySelectorAll("img, video")
+            let descriptionParagraphs = figOneByOneElement.querySelectorAll("._description p")
+
+            Array.from(visualElements).forEach(visualElement => {
                 gsap.from(visualElement, {
                     opacity: 0,
                     scale: 1.2,
@@ -944,38 +1017,38 @@ function caseStudyAnimations(container = document) {
                         start: '20% 80%',
                     }
                 })
-
-                if (!descriptionParagraphs) return;
-
-                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
-                    let split = SplitText.create(descriptionParagraph, {
-                        type: "lines"
-                    });
-
-                    gsap.from(split.lines, {
-                        y: 5,
-                        opacity: 0,
-                        duration: 0.3,
-                        stagger: 0.1,
-
-                        scrollTrigger: {
-                            trigger: descriptionParagraph,
-                            start: 'top 80%',
-                        }
-                    })
-                })
-
             })
-        }
 
-        let figOneAsymElements = container.querySelectorAll(".cs-fig-1-asym-left, .cs-fig-1-asym-right");
+            if (!descriptionParagraphs) return;
 
-        if (figOneAsymElements) {
+            Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                let split = SplitText.create(descriptionParagraph, {
+                    type: "lines"
+                });
 
-            Array.from(figOneAsymElements).forEach(figOneAsymElement => {
-                let visualElement = figOneAsymElement.querySelectorAll("img, video")[0]
-                let descriptionParagraphs = figOneAsymElement.querySelectorAll("._description p")
+                gsap.from(split.lines, {
+                    y: 5,
+                    opacity: 0,
+                    duration: 0.3,
+                    stagger: 0.1,
 
+                    scrollTrigger: {
+                        trigger: descriptionParagraph,
+                        start: 'top 80%',
+                    }
+                })
+            })
+        })
+    }
+
+    let figOneByOneAsymElements = container.querySelectorAll(".cs-fig-1x1-asym-left, .cs-fig-1x1-asym-right");
+
+    if (figOneByOneAsymElements) {
+        Array.from(figOneByOneAsymElements).forEach(figOneByOneAsymElement => {
+            let visualElements = figOneByOneAsymElement.querySelectorAll("img, video")
+            let descriptionParagraphs = figOneByOneAsymElement.querySelectorAll("._description p")
+
+            Array.from(visualElements).forEach(visualElement => {
                 gsap.from(visualElement, {
                     opacity: 0,
                     scale: 1.2,
@@ -988,188 +1061,87 @@ function caseStudyAnimations(container = document) {
                             visualElement.play();
                         }
                     },
-
                     scrollTrigger: {
                         trigger: visualElement,
                         start: '20% 80%',
                     }
                 })
+            })
 
-                if (!descriptionParagraphs) return;
 
-                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
-                    let split = SplitText.create(descriptionParagraph, {
-                        type: "lines"
-                    });
 
-                    gsap.from(split.lines, {
-                        y: 5,
-                        opacity: 0,
-                        duration: 0.3,
-                        stagger: 0.1,
+            if (!descriptionParagraphs) return;
 
-                        scrollTrigger: {
-                            trigger: descriptionParagraph,
-                            start: 'top 80%',
-                        }
-                    })
+            Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                let split = SplitText.create(descriptionParagraph, {
+                    type: "lines"
+                });
+
+                gsap.from(split.lines, {
+                    y: 5,
+                    opacity: 0,
+                    duration: 0.3,
+                    stagger: 0.1,
+
+                    scrollTrigger: {
+                        trigger: descriptionParagraph,
+                        start: 'top 80%',
+                    }
                 })
             })
-        }
+        })
+    }
 
-        let figOneByOneElements = container.querySelectorAll(".cs-fig-1x1-left, .cs-fig-1x1-right");
+    let figOneByTwoAsymElements = container.querySelectorAll(".cs-fig-1x2-asym-left, .cs-fig-1x2-asym-right");
 
-        if (figOneByOneElements) {
-            Array.from(figOneByOneElements).forEach(figOneByOneElement => {
-                let visualElements = figOneByOneElement.querySelectorAll("img, video")
-                let descriptionParagraphs = figOneByOneElement.querySelectorAll("._description p")
+    if (figOneByTwoAsymElements) {
+        Array.from(figOneByTwoAsymElements).forEach(figOneByTwoAsymElement => {
+            let visualElements = figOneByTwoAsymElement.querySelectorAll("img, video")
+            let descriptionParagraphs = figOneByTwoAsymElement.querySelectorAll("._description p")
 
-                Array.from(visualElements).forEach(visualElement => {
-                    gsap.from(visualElement, {
-                        opacity: 0,
-                        scale: 1.2,
-                        duration: .8,
-                        clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
-                        transformOrigin: 'top center',
-                        ease: 'power2.inOut',
-                        onComplete: () => {
-                            if (visualElement.tagName == `VIDEO`) {
-                                visualElement.play();
-                            }
-                        },
-
-                        scrollTrigger: {
-                            trigger: visualElement,
-                            start: '20% 80%',
+            Array.from(visualElements).forEach(visualElement => {
+                gsap.from(visualElement, {
+                    opacity: 0,
+                    scale: 1.2,
+                    duration: .8,
+                    clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
+                    transformOrigin: 'top center',
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        if (visualElement.tagName == `VIDEO`) {
+                            visualElement.play();
                         }
-                    })
-                })
-
-                if (!descriptionParagraphs) return;
-
-                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
-                    let split = SplitText.create(descriptionParagraph, {
-                        type: "lines"
-                    });
-
-                    gsap.from(split.lines, {
-                        y: 5,
-                        opacity: 0,
-                        duration: 0.3,
-                        stagger: 0.1,
-
-                        scrollTrigger: {
-                            trigger: descriptionParagraph,
-                            start: 'top 80%',
-                        }
-                    })
+                    },
+                    scrollTrigger: {
+                        trigger: visualElement,
+                        start: '20% 80%',
+                    }
                 })
             })
-        }
-
-        let figOneByOneAsymElements = container.querySelectorAll(".cs-fig-1x1-asym-left, .cs-fig-1x1-asym-right");
-
-        if (figOneByOneAsymElements) {
-            Array.from(figOneByOneAsymElements).forEach(figOneByOneAsymElement => {
-                let visualElements = figOneByOneAsymElement.querySelectorAll("img, video")
-                let descriptionParagraphs = figOneByOneAsymElement.querySelectorAll("._description p")
-
-                Array.from(visualElements).forEach(visualElement => {
-                    gsap.from(visualElement, {
-                        opacity: 0,
-                        scale: 1.2,
-                        duration: .8,
-                        clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
-                        transformOrigin: 'top center',
-                        ease: 'power2.inOut',
-                        onComplete: () => {
-                            if (visualElement.tagName == `VIDEO`) {
-                                visualElement.play();
-                            }
-                        },
-                        scrollTrigger: {
-                            trigger: visualElement,
-                            start: '20% 80%',
-                        }
-                    })
-                })
 
 
 
-                if (!descriptionParagraphs) return;
+            if (!descriptionParagraphs) return;
 
-                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
-                    let split = SplitText.create(descriptionParagraph, {
-                        type: "lines"
-                    });
+            Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
+                let split = SplitText.create(descriptionParagraph, {
+                    type: "lines"
+                });
 
-                    gsap.from(split.lines, {
-                        y: 5,
-                        opacity: 0,
-                        duration: 0.3,
-                        stagger: 0.1,
+                gsap.from(split.lines, {
+                    y: 5,
+                    opacity: 0,
+                    duration: 0.3,
+                    stagger: 0.1,
 
-                        scrollTrigger: {
-                            trigger: descriptionParagraph,
-                            start: 'top 80%',
-                        }
-                    })
+                    scrollTrigger: {
+                        trigger: descriptionParagraph,
+                        start: 'top 80%',
+                    }
                 })
             })
-        }
-
-        let figOneByTwoAsymElements = container.querySelectorAll(".cs-fig-1x2-asym-left, .cs-fig-1x2-asym-right");
-
-        if (figOneByTwoAsymElements) {
-            Array.from(figOneByTwoAsymElements).forEach(figOneByTwoAsymElement => {
-                let visualElements = figOneByTwoAsymElement.querySelectorAll("img, video")
-                let descriptionParagraphs = figOneByTwoAsymElement.querySelectorAll("._description p")
-
-                Array.from(visualElements).forEach(visualElement => {
-                    gsap.from(visualElement, {
-                        opacity: 0,
-                        scale: 1.2,
-                        duration: .8,
-                        clipPath: `polygon(0 0, 100% 0, 100% 0%, 0 0%)`,
-                        transformOrigin: 'top center',
-                        ease: 'power2.inOut',
-                        onComplete: () => {
-                            if (visualElement.tagName == `VIDEO`) {
-                                visualElement.play();
-                            }
-                        },
-                        scrollTrigger: {
-                            trigger: visualElement,
-                            start: '20% 80%',
-                        }
-                    })
-                })
-
-
-
-                if (!descriptionParagraphs) return;
-
-                Array.from(descriptionParagraphs).forEach(descriptionParagraph => {
-                    let split = SplitText.create(descriptionParagraph, {
-                        type: "lines"
-                    });
-
-                    gsap.from(split.lines, {
-                        y: 5,
-                        opacity: 0,
-                        duration: 0.3,
-                        stagger: 0.1,
-
-                        scrollTrigger: {
-                            trigger: descriptionParagraph,
-                            start: 'top 80%',
-                        }
-                    })
-                })
-            })
-        }
-
-    })
+        })
+    }
 }
 
 function caseStudySectionCompare(container = document) {
@@ -1250,15 +1222,20 @@ function caseStudySectionCompare(container = document) {
     }
 }
 
-function caseStudySectionDrag(container = document) {
-    let dragElements = container.getElementsByClassName(`cs-int-drag`);
+
+
+async function caseStudySectionDrag(container = document) {
+
+    await sleep(500);
+
+    let dragElements = container.querySelectorAll(`.cs-int-drag`);
 
     if (dragElements) {
         Array.from(dragElements).forEach(dragElement => {
 
-            let galleryElement = dragElement.getElementsByClassName(`_gallery`)[0];
+            let galleryElement = dragElement.querySelector(`._gallery`);
 
-            Draggable.create(galleryElement, {
+            let drag = Draggable.create(galleryElement, {
                 type: "x",
                 bounds: {
                     maxX: 0,
@@ -1267,10 +1244,8 @@ function caseStudySectionDrag(container = document) {
                 edgeResistance: 0.65,
                 inertia: true
             });
-
         })
     }
-
 }
 
 async function indexToProjectTransitionLeave(trigger) {
