@@ -653,6 +653,8 @@ function testimonialsSection(container = document) {
         testimonialsObjects.push(addToTestimonialsObjects)
     })
 
+    console.log(testimonialsObjects)
+
     let quoteElement = testimonialsSection.querySelector(`._quote`)
     let nameElement = testimonialsSection.querySelector(`._name`)
     let companyElement = testimonialsSection.querySelector(`._company`)
@@ -671,8 +673,6 @@ function testimonialsSection(container = document) {
 
         let newTestimonialItem = testimonialsObjects[currentTestimonialIndex]
         let newImage = newTestimonialItem.imageElement
-
-        ctaButton.setAttribute(`href`, testimonialItem.caseStudyLink)
 
         let animationTimeline = gsap.timeline()
 
@@ -711,6 +711,7 @@ function testimonialsSection(container = document) {
                     nameElement.innerHTML = newTestimonialItem.name
                     companyElement.innerHTML = newTestimonialItem.company
                     positionElement.innerHTML = newTestimonialItem.position
+                    ctaButton.setAttribute(`href`, newTestimonialItem.caseStudyLink)
                 }
             }, `<`)
             .to(newImage, {
@@ -865,7 +866,7 @@ function caseStudyAnimations(container = document) {
 
         Array.from(txtMainElements).forEach(txtMainElement => {
             let preHeadingParagraph = txtMainElement.querySelectorAll("._pre-heading p")[0]
-            let headingParagraph = txtMainElement.querySelectorAll("._heading p")[0]
+            let headingParagraph = txtMainElement.querySelectorAll("._heading p")
 
             let split = SplitText.create(headingParagraph, {
                 type: "lines"
@@ -878,7 +879,7 @@ function caseStudyAnimations(container = document) {
 
                 scrollTrigger: {
                     trigger: preHeadingParagraph,
-                    start: 'top 80%',
+                    start: 'top 70%',
                 }
             })
 
@@ -887,7 +888,12 @@ function caseStudyAnimations(container = document) {
                 opacity: 0,
                 duration: 0.3,
                 stagger: 0.1,
-                delay: 0.1
+                delay: 0.1,
+
+                scrollTrigger: {
+                    trigger: headingParagraph,
+                    start: 'top 70%',
+                }
             })
         });
     }
@@ -934,7 +940,8 @@ function caseStudyAnimations(container = document) {
 
                     scrollTrigger: {
                         trigger: descriptionParagraph,
-                        start: 'top 80%',
+                        start: 'top 70%',
+                        //markers: true,
                     }
                 })
             })
@@ -984,7 +991,7 @@ function caseStudyAnimations(container = document) {
 
                     scrollTrigger: {
                         trigger: descriptionParagraph,
-                        start: 'top 80%',
+                        start: 'top 70%',
                     }
                 })
             })
@@ -1034,7 +1041,7 @@ function caseStudyAnimations(container = document) {
 
                     scrollTrigger: {
                         trigger: descriptionParagraph,
-                        start: 'top 80%',
+                        start: 'top 70%',
                     }
                 })
             })
@@ -1085,7 +1092,7 @@ function caseStudyAnimations(container = document) {
 
                     scrollTrigger: {
                         trigger: descriptionParagraph,
-                        start: 'top 80%',
+                        start: 'top 70%',
                     }
                 })
             })
@@ -1136,7 +1143,7 @@ function caseStudyAnimations(container = document) {
 
                     scrollTrigger: {
                         trigger: descriptionParagraph,
-                        start: 'top 80%',
+                        start: 'top 70%',
                     }
                 })
             })
@@ -1493,8 +1500,6 @@ async function indexToProjectTransitionEnter(container = document) {
             autoAlpha: 1,
             duration: 0
         })
-
-
 
         return;
     }

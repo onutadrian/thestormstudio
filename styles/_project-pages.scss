@@ -236,6 +236,17 @@
         border-radius: $sp8;
         transition: 0.3s;
 
+        video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            opacity: 1;
+        }
+
         :hover>& {
             transform: translateY(-90%);
         }
@@ -539,6 +550,7 @@
 
             ._wrapper {
                 overflow: hidden;
+                flex-grow: 0;
 
                 img,
                 video {
@@ -1053,7 +1065,7 @@
 
                     p {
                         @include medium-m;
-                        
+
                         @include mobile() {
                             @include medium-ms;
                         }
@@ -1065,8 +1077,8 @@
 
                     p {
                         @include book-ms;
-                        
-                         @include mobile() {
+
+                        @include mobile() {
                             @include medium-ms;
                         }
                     }
