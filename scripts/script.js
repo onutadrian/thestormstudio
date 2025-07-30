@@ -208,6 +208,33 @@ function createBlob(blobElement, blobContent, hoverElements, blobSize, ) {
 // document.addEventListener(`switchedToDesktop`)
 // document.addEventListener(`switchedToMobile`)
 
+function cookiesConsent(container = document) {
+    let cookiesWrapperElement = container.querySelector(`.cookies-wrapper`)
+
+    if (!cookiesWrapperElement) return;
+
+    let acceptButton = cookiesWrapperElement.querySelector(`._button`)
+    let consentGiven = localStorage.getItem("cookiesConsentGiven");
+
+    if (consentGiven == null) {
+
+        gsap.to(cookiesWrapperElement, {
+            display: `flex`,
+            duration: 0
+        })
+
+        acceptButton.addEventListener(`click`, () => {
+
+            localStorage.setItem("cookiesConsentGiven", true);
+
+            gsap.to(cookiesWrapperElement, {
+                display: `none`,
+                duration: 0
+            })
+        })
+    }
+}
+
 function pageReveal() {
     let pageReveal = document.querySelector(`.page-reveal`)
 
@@ -263,6 +290,27 @@ function pageReveal() {
             autoAlpha: 0,
             duration: 0.2
         }, "<")
+
+    let homeHero = document.querySelector(`.homepage-hero`)
+
+    if (homeHero) {
+        let homeHeroPreheading = homeHero.querySelector(`._pre-heading`)
+        let homeHeroHeading = homeHero.querySelector(`._heading`)
+
+        let headingSplit = SplitText.create(homeHeroHeading, {
+            type: `chars`,
+            mask: `chars`,
+            smartWrap: true
+        });
+
+        animationTimeline.from(headingSplit.chars, {
+            y: `-110%`,
+            autoAlpha: 0,
+            duration: 1.4,
+            stagger: 0.02,
+            ease: `power3.inOut`,
+        }, `<+=0.6`)
+    }
 
 }
 
@@ -652,8 +700,6 @@ function testimonialsSection(container = document) {
 
         testimonialsObjects.push(addToTestimonialsObjects)
     })
-
-    console.log(testimonialsObjects)
 
     let quoteElement = testimonialsSection.querySelector(`._quote`)
     let nameElement = testimonialsSection.querySelector(`._name`)
@@ -1312,8 +1358,6 @@ function capabilitiesOverlay(container = document) {
 
             let itemContent = button.parentNode
 
-            console.log(itemContent)
-
             capabilitiesOverlayTitleElement.innerHTML = itemContent.querySelector(`._overlay-content ._title`).innerHTML
             capabilitiesOverlayParagraphsElement.innerHTML = itemContent.querySelector(`._overlay-content ._paragraphs`).innerHTML
 
@@ -1468,7 +1512,6 @@ function toggleMobileMenu(container = document) {
     })
 
     window.addEventListener(`switchedToDesktop`, () => {
-        console.log()
         closeMenu()
     })
 
@@ -1582,6 +1625,153 @@ async function indexToProjectTransitionEnter(container = document) {
 
 }
 
+function workPage(container = document) {
+
+    let grids = container.querySelectorAll('._grid-row-left, ._grid-row-right');
+
+    if (!grids) return;
+
+    Array.from(grids).forEach(grid => {
+        let n = grid.querySelectorAll('._project').length;
+        grid.classList.add('grid-n' + n);
+    })
+
+    let projectElements = container.querySelectorAll(`._project`);
+
+    Array.from(projectElements).forEach(project => {
+
+        let video = project.querySelector(`video`)
+        let videoStartTime = video.getAttribute(`start-time`)
+
+        video.currentTime = videoStartTime ? videoStartTime : 0;
+
+        project.addEventListener(`pointerenter`, () => {
+            video.play();
+        })
+
+        project.addEventListener(`pointerleave`, () => {
+            video.pause();
+            video.currentTime = videoStartTime ? videoStartTime : 0;
+        })
+    })
+
+}
+
+function playgroundPage(container = document) {
+
+    let mm = gsap.matchMedia();
+
+    let playgroundItems = container.querySelectorAll(`.playground ._item`)
+    if (!playgroundItems) return;
+
+    let isFullscreen = false;
+    let activeVideoParent = null;
+
+    let fullscreenElement = container.querySelector(`.playground-item-fullscreen`)
+    let fullscreenVideoWrapper = fullscreenElement.querySelector(`._video-wrapper`)
+    let fullscreenBackground = fullscreenElement.querySelector(`._background`)
+
+    let closeButton = fullscreenElement.querySelector(`._close-button`)
+
+    console.log(fullscreenBackground)
+
+    Array.from(playgroundItems).forEach(item => {
+
+        let video = item.querySelector(`video`)
+        let videoStartTime = video.getAttribute(`start-time`)
+
+        video.currentTime = videoStartTime ? videoStartTime : 0;
+
+        item.addEventListener(`pointerenter`, () => {
+            video.play();
+        })
+
+        item.addEventListener(`pointerleave`, () => {
+            video.pause();
+            video.currentTime = videoStartTime ? videoStartTime : 0;
+        })
+
+        item.addEventListener(`click`, () => {
+
+            document.documentElement.style.cursor = 'none';
+
+            isFullscreen = true;
+            activeVideoParent = item;
+
+            let state = Flip.getState(video)
+
+            fullscreenVideoWrapper.appendChild(video)
+            gsap.to(fullscreenElement, {
+                opacity: 1,
+                duration: 0.1,
+                pointerEvents: `all`,
+                onComplete: () => {
+                    video.play()
+                }
+            })
+
+            Flip.from(state, {
+                duration: 0
+            })
+        })
+    })
+
+    fullscreenElement.addEventListener(`click`, () => {
+
+        document.documentElement.style.cursor = 'auto';
+
+        if (!isFullscreen) return;
+        isFullscreen = false;
+
+        fullscreenVideoWrapper = fullscreenElement.querySelector(`._video-wrapper`)
+        let video = fullscreenVideoWrapper.querySelector(`video`)
+        let videoStartTime = video.getAttribute(`start-time`)
+
+        let state = Flip.getState(video)
+
+        activeVideoParent.appendChild(video)
+
+        gsap.to(fullscreenElement, {
+            opacity: 0,
+            duration: 0,
+            pointerEvents: `none`,
+            onComplete: () => {
+                video.pause()
+                video.currentTime = videoStartTime ? videoStartTime : 0;
+            }
+        })
+
+        Flip.from(state, {
+            duration: 0
+        })
+
+    })
+
+    mm.add(`(min-width: ${mobileBreakpoint}px)`, () => {
+
+        gsap.set(closeButton, {
+            xPercent: -50,
+            yPercent: -50
+        });
+
+        let xTo = gsap.quickTo(closeButton, "x", {
+                duration: 0.3,
+                ease: "power3"
+            }),
+            yTo = gsap.quickTo(closeButton, "y", {
+                duration: 0.3,
+                ease: "power3"
+            });
+
+        window.addEventListener("mousemove", e => {
+            xTo(e.clientX);
+            yTo(e.clientY);
+        });
+
+    })
+
+}
+
 barba.init({
     transitions: [{
         name: 'projectTransition',
@@ -1599,6 +1789,7 @@ barba.init({
             async afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
+                cookiesConsent(data.next.container)
                 headerScrollAnimation(data.next.container)
                 toggleMobileMenu(data.next.container)
                 textAnimations(data.next.container)
@@ -1629,6 +1820,7 @@ barba.init({
             afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
+                cookiesConsent(data.next.container)
                 headerScrollAnimation(data.next.container);
                 toggleMobileMenu(data.next.container)
                 indexToProjectTransitionEnter(data.next.container);
@@ -1645,12 +1837,32 @@ barba.init({
                     });
                 });
             }
+        }, ,
+        {
+            namespace: 'allWork',
+            afterEnter(data) {
+                ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+                cookiesConsent(data.next.container)
+                headerScrollAnimation(data.next.container);
+                toggleMobileMenu(data.next.container)
+                initBlobs(data.next.container);
+
+                workPage(data.next.container);
+
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        ScrollTrigger.refresh();
+                    });
+                });
+            }
         },
         {
             namespace: `capabilities`,
             async afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
+                cookiesConsent(data.next.container)
                 headerScrollAnimation(data.next.container)
                 toggleMobileMenu(data.next.container)
                 initBlobs(data.next.container);
@@ -1673,6 +1885,25 @@ barba.init({
                     }
                 })
             }
-        }
+        },
+        {
+            namespace: 'playground',
+            afterEnter(data) {
+                ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+                cookiesConsent(data.next.container)
+                headerScrollAnimation(data.next.container);
+                toggleMobileMenu(data.next.container)
+                initBlobs(data.next.container);
+
+                playgroundPage(data.next.container);
+
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        ScrollTrigger.refresh();
+                    });
+                });
+            }
+        },
     ]
 });
