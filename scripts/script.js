@@ -1627,34 +1627,36 @@ async function indexToProjectTransitionEnter(container = document) {
 
 function workPage(container = document) {
 
-    let grids = container.querySelectorAll('._grid-row-left, ._grid-row-right');
+    let workItemElements = container.querySelectorAll(`.work-items ._item`)
+    if (!workItemElements) return;
 
-    if (!grids) return;
+    let lastAnimation = null;
 
-    Array.from(grids).forEach(grid => {
-        let n = grid.querySelectorAll('._project').length;
-        grid.classList.add('grid-n' + n);
-    })
+    function itemHover(video) {
+        lastAnimation = gsap.to(video, {
+            scale: 1.05,
+            duration: 0.3
+        })
+    }
 
-    let projectElements = container.querySelectorAll(`._project`);
+    Array.from(workItemElements).forEach(item => {
 
-    Array.from(projectElements).forEach(project => {
+        let video = item.querySelector(`video`)
 
-        let video = project.querySelector(`video`)
         let videoStartTime = video.getAttribute(`start-time`)
-
         video.currentTime = videoStartTime ? videoStartTime : 0;
 
-        project.addEventListener(`pointerenter`, () => {
-            video.play();
+        item.addEventListener(`pointerenter`, () => {
+            video.play()
+            itemHover(video)
         })
 
-        project.addEventListener(`pointerleave`, () => {
-            video.pause();
+        item.addEventListener(`pointerleave`, () => {
+            video.pause()
             video.currentTime = videoStartTime ? videoStartTime : 0;
+            lastAnimation.reverse()
         })
     })
-
 }
 
 function playgroundPage(container = document) {
@@ -1840,7 +1842,7 @@ barba.init({
         }, ,
         {
             namespace: 'allWork',
-            afterEnter(data) {
+            async afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
                 cookiesConsent(data.next.container)
@@ -1855,6 +1857,17 @@ barba.init({
                         ScrollTrigger.refresh();
                     });
                 });
+
+                await sleep(500)
+
+                isScrollProgrammatic = true;
+
+                lenis.scrollTo(0, {
+                    immediate: true,
+                    onComplete: () => {
+                        isScrollProgrammatic = false;
+                    }
+                })
             }
         },
         {
@@ -1888,7 +1901,7 @@ barba.init({
         },
         {
             namespace: 'playground',
-            afterEnter(data) {
+            async afterEnter(data) {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
                 cookiesConsent(data.next.container)
@@ -1903,6 +1916,17 @@ barba.init({
                         ScrollTrigger.refresh();
                     });
                 });
+
+                await sleep(500)
+
+                isScrollProgrammatic = true;
+
+                lenis.scrollTo(0, {
+                    immediate: true,
+                    onComplete: () => {
+                        isScrollProgrammatic = false;
+                    }
+                })
             }
         },
     ]

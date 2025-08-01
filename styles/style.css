@@ -3043,6 +3043,7 @@ footer ._logo {
     font-size: 1.25rem;
     font-weight: 500;
     line-height: normal;
+    line-height: 120%;
   }
 }
 .capabilities section ._overlay-content {
@@ -3081,47 +3082,28 @@ footer ._logo {
     margin-bottom: 4.5rem;
   }
 }
-.all-work .all-work-grids {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.all-work .all-work-grids ._grid-row-left,
-.all-work .all-work-grids ._grid-row-right {
-  display: grid;
-  width: 100%;
-  gap: 1rem;
+.all-work .work-items ._item {
+  margin-bottom: 10rem;
 }
 @media screen and (max-width: 1024px) {
-  .all-work .all-work-grids ._grid-row-left,
-  .all-work .all-work-grids ._grid-row-right {
-    display: flex;
-    flex-direction: column;
+  .all-work .work-items ._item {
+    margin-bottom: 5rem;
   }
 }
-.all-work .all-work-grids ._grid-row-left ._project,
-.all-work .all-work-grids ._grid-row-right ._project {
-  border-radius: 0.5rem;
-  position: relative;
-  background: #000000;
+.all-work .work-items ._item ._visual {
+  width: 100%;
+  aspect-ratio: 16/9;
   overflow: hidden;
-  cursor: pointer;
+  position: relative;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
 }
 @media screen and (max-width: 1024px) {
-  .all-work .all-work-grids ._grid-row-left ._project,
-  .all-work .all-work-grids ._grid-row-right ._project {
-    width: 100%;
-    height: 32rem;
+  .all-work .work-items ._item ._visual {
+    margin-bottom: 1rem;
   }
 }
-.all-work .all-work-grids ._grid-row-left ._project ._background,
-.all-work .all-work-grids ._grid-row-right ._project ._background {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.all-work .all-work-grids ._grid-row-left ._project ._background video,
-.all-work .all-work-grids ._grid-row-right ._project ._background video {
+.all-work .work-items ._item ._visual video {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3130,75 +3112,163 @@ footer ._logo {
   transform: translate(-50%, -50%);
   -o-object-fit: cover;
      object-fit: cover;
-  opacity: 1;
-  transition: opacity 0.3s;
+}
+.all-work .work-items ._item ._title {
+  font-family: "mainfont", sans-serif;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-bottom: 2rem;
 }
 @media screen and (max-width: 1024px) {
-  .all-work .all-work-grids ._grid-row-left ._project ._background video,
-  .all-work .all-work-grids ._grid-row-right ._project ._background video {
-    opacity: 0.6;
+  .all-work .work-items ._item ._title {
+    font-family: "mainfont", sans-serif;
+    font-size: 1.875rem;
+    font-style: normal;
+    font-weight: 400;
   }
 }
-.all-work .all-work-grids ._grid-row-left ._project ._title,
-.all-work .all-work-grids ._grid-row-right ._project ._title {
-  color: #ffffff;
-  position: absolute;
-  bottom: 2rem;
-  left: 2rem;
+@media screen and (max-width: 1024px) {
+  .all-work .work-items ._item ._metadata {
+    display: none;
+  }
+}
+.all-work .work-items ._item ._metadata ._meta-item ._type {
   font-family: "mainfont", sans-serif;
-  font-size: 1.875rem;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-bottom: 1rem;
+}
+.all-work .work-items ._item ._metadata ._meta-item ._text {
+  font-family: "mainfont", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: normal;
+  line-height: 120%;
+}
+.all-work .work-items ._item ._metadata ._meta-item.type {
+  grid-column: span 3;
+}
+.all-work .work-items ._item ._metadata ._meta-item.client {
+  grid-column: span 2;
+}
+.all-work .work-items ._item ._metadata ._meta-item.stage {
+  grid-column: span 2;
+}
+.all-work .work-items ._item ._metadata ._meta-item.services {
+  grid-column: span 3;
+}
+.all-work .work-items ._item ._metadata ._meta-item.year {
+  grid-column: span 1;
+}
+.all-work .industries {
+  margin-top: 15rem;
+}
+@media screen and (max-width: 1024px) {
+  .all-work .industries {
+    margin-top: 10rem;
+  }
+}
+.all-work .industries ._heading {
+  font-family: "mainfont", sans-serif;
+  font-size: 6rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-bottom: 2.5rem;
+}
+@media screen and (max-width: 1024px) {
+  .all-work .industries ._heading {
+    font-family: "mainfont", sans-serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    line-height: 110%;
+    margin-bottom: 2.5rem;
+  }
+}
+.all-work .industries ._subheading {
+  font-family: "mainfont", sans-serif;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  color: #545454;
+  margin-bottom: 15rem;
+  max-width: 37.5rem;
+}
+@media screen and (max-width: 1024px) {
+  .all-work .industries ._subheading {
+    font-family: "mainfont", sans-serif;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    line-height: 120%;
+    margin-bottom: 3.5rem;
+  }
+}
+.all-work .industries ._industries-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+@media screen and (max-width: 1024px) {
+  .all-work .industries ._industries-wrapper {
+    gap: 2rem;
+  }
+}
+.all-work .industries ._industries-wrapper ._industry {
+  display: flex;
+  justify-content: space-between;
+}
+@media screen and (max-width: 1024px) {
+  .all-work .industries ._industries-wrapper ._industry {
+    flex-direction: column;
+  }
+}
+.all-work .industries ._industries-wrapper ._industry ._title {
+  font-family: "mainfont", sans-serif;
+  font-size: 2.25rem;
   font-style: normal;
   font-weight: 500;
-  line-height: 100%;
-  opacity: 0;
-  transition: 0.3s;
+  line-height: 120%;
 }
 @media screen and (max-width: 1024px) {
-  .all-work .all-work-grids ._grid-row-left ._project ._title,
-  .all-work .all-work-grids ._grid-row-right ._project ._title {
-    opacity: 1;
+  .all-work .industries ._industries-wrapper ._industry ._title {
+    font-family: "mainfont", sans-serif;
+    font-size: 1.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    margin-bottom: 2rem;
   }
 }
-.all-work .all-work-grids ._grid-row-left ._project:nth-child(1),
-.all-work .all-work-grids ._grid-row-right ._project:nth-child(1) {
-  grid-area: A;
-  height: 32rem;
+.all-work .industries ._industries-wrapper ._industry ._companies {
+  font-family: "mainfont", sans-serif;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  max-width: 39.0625rem;
+  color: #545454;
 }
-.all-work .all-work-grids ._grid-row-left ._project:nth-child(2),
-.all-work .all-work-grids ._grid-row-right ._project:nth-child(2) {
-  grid-area: B;
-}
-.all-work .all-work-grids ._grid-row-left ._project:nth-child(3),
-.all-work .all-work-grids ._grid-row-right ._project:nth-child(3) {
-  grid-area: C;
-}
-@media screen and (min-width: 1024px) {
-  .all-work .all-work-grids ._grid-row-left ._project:hover > ._title,
-  .all-work .all-work-grids ._grid-row-right ._project:hover > ._title {
-    opacity: 1;
-  }
-  .all-work .all-work-grids ._grid-row-left ._project:hover > ._background video,
-  .all-work .all-work-grids ._grid-row-right ._project:hover > ._background video {
-    opacity: 0.6;
+@media screen and (max-width: 1024px) {
+  .all-work .industries ._industries-wrapper ._industry ._companies {
+    font-family: "mainfont", sans-serif;
+    font-size: 1.875rem;
+    font-style: normal;
+    font-weight: 400;
   }
 }
-.all-work .all-work-grids ._grid-row-left.grid-n1 {
-  grid-template-areas: "A";
-}
-.all-work .all-work-grids ._grid-row-left.grid-n2 {
-  grid-template-areas: "A A A A A B B";
-}
-.all-work .all-work-grids ._grid-row-left.grid-n3 {
-  grid-template-areas: "A A A A A B B" "A A A A A C C";
-}
-.all-work .all-work-grids ._grid-row-right.grid-n1 {
-  grid-template-areas: "A";
-}
-.all-work .all-work-grids ._grid-row-right.grid-n2 {
-  grid-template-areas: "B B A A A A A";
-}
-.all-work .all-work-grids ._grid-row-right.grid-n3 {
-  grid-template-areas: "B B A A A A A" "C C A A A A A";
+.all-work .industries ._industries-wrapper ._divider {
+  width: 100%;
+  height: 1px;
+  background: #C2D0D4;
 }
 
 .playground-item-fullscreen {
