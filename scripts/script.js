@@ -242,8 +242,13 @@ function pageReveal() {
         return;
     }
 
+    lenis.stop()
+
     let topPart = pageReveal.querySelector(`._top`)
     let bottomPart = pageReveal.querySelector(`._bottom`)
+
+    let progressElement = topPart.querySelector(`._progress`)
+    let currentProgressElement = progressElement.querySelector(`._current`)
 
     let logoElement = pageReveal.querySelector(`._logo`)
     let textElement = pageReveal.querySelector(`._text`)
@@ -288,7 +293,10 @@ function pageReveal() {
         }, "<-=0.4")
         .to(textElement, {
             autoAlpha: 0,
-            duration: 0.2
+            duration: 0.2,
+            onComplete: () => {
+                lenis.start()
+            }
         }, "<")
 
     let homeHero = document.querySelector(`.homepage-hero`)
@@ -311,6 +319,18 @@ function pageReveal() {
             ease: `power3.inOut`,
         }, `<+=0.6`)
     }
+
+    gsap.to(currentProgressElement, {
+        width: `100%`,
+        duration: animationTimeline.duration() - 2.4,
+        ease: `linear`
+    })
+
+    gsap.to(currentProgressElement, {
+        autoAlpha: 0,
+        delay: animationTimeline.duration() - 2.6,
+        duration: 0.3
+    })
 
 }
 
