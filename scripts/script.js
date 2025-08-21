@@ -1700,42 +1700,46 @@ function playgroundPage(container = document) {
     Array.from(playgroundItems).forEach(item => {
 
         let video = item.querySelector(`video`)
-        let videoStartTime = video.getAttribute(`start-time`)
 
-        video.currentTime = videoStartTime ? videoStartTime : 0;
+        if (video) {
 
-        item.addEventListener(`pointerenter`, () => {
-            video.play();
-        })
+            let videoStartTime = video.getAttribute(`start-time`)
 
-        item.addEventListener(`pointerleave`, () => {
-            video.pause();
             video.currentTime = videoStartTime ? videoStartTime : 0;
-        })
 
-        item.addEventListener(`click`, () => {
-
-            document.documentElement.style.cursor = 'none';
-
-            isFullscreen = true;
-            activeVideoParent = item;
-
-            let state = Flip.getState(video)
-
-            fullscreenVideoWrapper.appendChild(video)
-            gsap.to(fullscreenElement, {
-                opacity: 1,
-                duration: 0.1,
-                pointerEvents: `all`,
-                onComplete: () => {
-                    video.play()
-                }
+            item.addEventListener(`pointerenter`, () => {
+                video.play();
             })
 
-            Flip.from(state, {
-                duration: 0
+            item.addEventListener(`pointerleave`, () => {
+                video.pause();
+                video.currentTime = videoStartTime ? videoStartTime : 0;
             })
-        })
+
+            item.addEventListener(`click`, () => {
+
+                document.documentElement.style.cursor = 'none';
+
+                isFullscreen = true;
+                activeVideoParent = item;
+
+                let state = Flip.getState(video)
+
+                fullscreenVideoWrapper.appendChild(video)
+                gsap.to(fullscreenElement, {
+                    opacity: 1,
+                    duration: 0.1,
+                    pointerEvents: `all`,
+                    onComplete: () => {
+                        video.play()
+                    }
+                })
+
+                Flip.from(state, {
+                    duration: 0
+                })
+            })
+        }
     })
 
     fullscreenElement.addEventListener(`click`, () => {
