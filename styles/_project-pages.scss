@@ -540,6 +540,7 @@
         flex-direction: column;
 
         ._images {
+            width: 100%;
             display: flex;
             justify-content: space-between;
             gap: $sp24;
@@ -549,13 +550,15 @@
             }
 
             ._wrapper {
+                width: 100%;
                 overflow: hidden;
                 flex-grow: 0;
+                
 
                 img,
                 video {
                     height: auto;
-                    max-width: 100%;
+                    width: 300%;
                     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 
                     @include mobile() {
